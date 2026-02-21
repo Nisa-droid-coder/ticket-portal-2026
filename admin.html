@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YSD2024 UPM - Admin Dashboard</title>
+    <title>YSD2026 UPM - Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Add Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
@@ -224,6 +224,15 @@
             background-color: #EF6C00;
         }
         
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
         .btn-small {
             padding: 6px 12px;
             font-size: 0.85rem;
@@ -417,6 +426,11 @@
             border-left: 4px solid #4CAF50;
         }
         
+        .readonly-field {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+        }
+        
         footer {
             text-align: center;
             padding: 20px;
@@ -489,6 +503,45 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        .participant-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .participant-row input {
+            flex: 1;
+        }
+        
+        .remove-participant {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        
+        .remove-participant:hover {
+            background-color: #c82333;
+        }
+        
+        .add-participant-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        
+        .add-participant-btn:hover {
+            background-color: #218838;
         }
         
         @media (max-width: 992px) {
@@ -719,6 +772,100 @@
         </div>
     </div>
     
+    <!-- Edit Booking Modal - NEW -->
+    <div class="modal" id="editBookingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Booking</h3>
+                <button class="close-btn" id="closeEditModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editBookingForm">
+                    <div class="booking-details">
+                        <!-- Booking ID - Read Only -->
+                        <div class="detail-group" style="grid-column: span 2;">
+                            <label>Booking ID (Cannot be changed)</label>
+                            <input type="text" id="editBookingId" class="form-control readonly-field" readonly>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label for="editContactPerson">Contact Person *</label>
+                            <input type="text" id="editContactPerson" class="form-control" required>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label for="editEmail">Email Address *</label>
+                            <input type="email" id="editEmail" class="form-control" required>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label for="editPhone">Phone Number *</label>
+                            <input type="tel" id="editPhone" class="form-control" required>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label for="editTicketType">Ticket Type *</label>
+                            <select id="editTicketType" class="form-control" required>
+                                <option value="single">Single Ticket (RM 65.00)</option>
+                                <option value="group">Group Package (RM 180.00)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label for="editQuantity">Quantity *</label>
+                            <input type="number" id="editQuantity" class="form-control" min="1" max="20" required>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label for="editStatus">Status *</label>
+                            <select id="editStatus" class="form-control" required>
+                                <option value="pending">Pending</option>
+                                <option value="paid">Paid</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label for="editAmount">Amount (RM) *</label>
+                            <input type="number" id="editAmount" class="form-control" step="0.01" required>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label for="editPaymentMethod">Payment Method</label>
+                            <select id="editPaymentMethod" class="form-control">
+                                <option value="fpx">FPX UPM</option>
+                                <option value="card">Credit/Debit Card</option>
+                                <option value="ewallet">E-Wallet</option>
+                            </select>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label for="editEventDate">Event Date</label>
+                            <input type="date" id="editEventDate" class="form-control">
+                        </div>
+                        
+                        <div class="detail-group" style="grid-column: span 2;">
+                            <label>Participants</label>
+                            <div id="editParticipantsContainer">
+                                <!-- Participants will be dynamically added here -->
+                            </div>
+                            <button type="button" class="add-participant-btn" onclick="addEditParticipant()">
+                                <i class="fas fa-plus"></i> Add Participant
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="editDocId">
+                    
+                    <div style="margin-top: 30px; text-align: right;">
+                        <button type="button" class="btn btn-secondary" id="cancelEditBtn">Cancel</button>
+                        <button type="submit" class="btn btn-success">Update Booking</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     <!-- Add Booking Modal -->
     <div class="modal" id="addBookingModal">
         <div class="modal-content">
@@ -791,14 +938,14 @@
         // FIREBASE CONFIGURATION - REPLACE WITH YOUR OWN
         // ============================================
         const firebaseConfig = {
-  apiKey: "AIzaSyABaOMohXrju_OelcUQLAxlIBy809ob3uI",
-  authDomain: "ysd2026-upm-tickets.firebaseapp.com",
-  projectId: "ysd2026-upm-tickets",
-  storageBucket: "ysd2026-upm-tickets.firebasestorage.app",
-  messagingSenderId: "350674755825",
-  appId: "1:350674755825:web:143f8ee11a2fb568080950",
-  measurementId: "G-Y4R80MP8P2"
-};
+            apiKey: "AIzaSyABaOMohXrju_OelcUQLAxlIBy809ob3uI",
+            authDomain: "ysd2026-upm-tickets.firebaseapp.com",
+            projectId: "ysd2026-upm-tickets",
+            storageBucket: "ysd2026-upm-tickets.firebasestorage.app",
+            messagingSenderId: "350674755825",
+            appId: "1:350674755825:web:143f8ee11a2fb568080950",
+            measurementId: "G-Y4R80MP8P2"
+        };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -813,6 +960,7 @@
         let currentPage = 1;
         const itemsPerPage = 10;
         let currentBookingDetails = null;
+        let editParticipants = [];
 
         // ============================================
         // DOM ELEMENTS
@@ -829,19 +977,24 @@
         const ticketTypeFilter = document.getElementById('ticketTypeFilter');
         const dateFilter = document.getElementById('dateFilter');
         const bookingDetailsModal = document.getElementById('bookingDetailsModal');
+        const editBookingModal = document.getElementById('editBookingModal');
         const addBookingModal = document.getElementById('addBookingModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
+        const closeEditModalBtn = document.getElementById('closeEditModalBtn');
         const closeAddModalBtn = document.getElementById('closeAddModalBtn');
         const cancelAddBtn = document.getElementById('cancelAddBtn');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
         const refreshBtn = document.getElementById('refreshBtn');
         const exportCsvBtn = document.getElementById('exportCsvBtn');
         const addBookingBtn = document.getElementById('addBookingBtn');
         const logoutBtn = document.getElementById('logoutBtn');
         const addBookingForm = document.getElementById('addBookingForm');
+        const editBookingForm = document.getElementById('editBookingForm');
         const newTicketType = document.getElementById('newTicketType');
         const newQuantity = document.getElementById('newQuantity');
         const newAmount = document.getElementById('newAmount');
         const adminInfo = document.getElementById('adminInfo');
+        const editParticipantsContainer = document.getElementById('editParticipantsContainer');
 
         // ============================================
         // HELPER FUNCTIONS
@@ -866,6 +1019,12 @@
             const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
             const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
             return date.toLocaleDateString('en-US', options);
+        }
+
+        function formatDateForInput(date) {
+            if (!date) return '';
+            const d = date.toDate ? date.toDate() : new Date(date);
+            return d.toISOString().split('T')[0];
         }
 
         // ============================================
@@ -977,7 +1136,7 @@
                             <button class="btn btn-small btn-secondary" onclick="viewBookingDetails('${booking.id}')">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="btn btn-small btn-warning" onclick="editBooking('${booking.id}')">
+                            <button class="btn btn-small btn-warning" onclick="openEditBookingModal('${booking.id}')">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button class="btn btn-small btn-danger" onclick="deleteBooking('${booking.id}')">
@@ -1248,6 +1407,203 @@
         }
 
         // ============================================
+        // OPEN EDIT BOOKING MODAL
+        // ============================================
+        async function openEditBookingModal(bookingId) {
+            showLoading();
+            
+            try {
+                const doc = await db.collection('bookings').doc(bookingId).get();
+                if (!doc.exists) {
+                    alert('Booking not found');
+                    return;
+                }
+                
+                const booking = { id: doc.id, ...doc.data() };
+                
+                // Populate form fields
+                document.getElementById('editDocId').value = booking.id;
+                document.getElementById('editBookingId').value = booking.bookingId || '';
+                document.getElementById('editContactPerson').value = booking.contactPerson || '';
+                document.getElementById('editEmail').value = booking.email || '';
+                document.getElementById('editPhone').value = booking.phone || '';
+                document.getElementById('editTicketType').value = booking.ticketType || 'single';
+                document.getElementById('editQuantity').value = booking.quantity || 1;
+                document.getElementById('editStatus').value = booking.status || 'pending';
+                document.getElementById('editAmount').value = booking.amount || 0;
+                document.getElementById('editPaymentMethod').value = booking.paymentMethod || 'fpx';
+                document.getElementById('editEventDate').value = formatDateForInput(booking.eventDate) || '2026-06-13';
+                
+                // Set participants
+                editParticipants = booking.participants ? [...booking.participants] : [];
+                renderEditParticipants();
+                
+                // Show modal
+                editBookingModal.style.display = 'flex';
+                
+            } catch (error) {
+                console.error('Error loading booking for edit:', error);
+                alert('Error loading booking details');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // ============================================
+        // RENDER EDIT PARTICIPANTS
+        // ============================================
+        function renderEditParticipants() {
+            editParticipantsContainer.innerHTML = '';
+            
+            if (editParticipants.length === 0) {
+                editParticipantsContainer.innerHTML = '<p class="text-muted">No participants added yet.</p>';
+                return;
+            }
+            
+            editParticipants.forEach((participant, index) => {
+                const participantDiv = document.createElement('div');
+                participantDiv.className = 'participant-row';
+                participantDiv.innerHTML = `
+                    <input type="text" class="form-control" placeholder="Name" value="${participant.name || ''}" 
+                           onchange="updateEditParticipant(${index}, 'name', this.value)">
+                    <input type="text" class="form-control" placeholder="IC/Passport" value="${participant.ic || ''}" 
+                           onchange="updateEditParticipant(${index}, 'ic', this.value)">
+                    <input type="number" class="form-control" placeholder="Age" min="5" max="12" value="${participant.age || ''}" 
+                           onchange="updateEditParticipant(${index}, 'age', this.value)">
+                    <button type="button" class="remove-participant" onclick="removeEditParticipant(${index})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                editParticipantsContainer.appendChild(participantDiv);
+            });
+        }
+
+        // ============================================
+        // UPDATE EDIT PARTICIPANT
+        // ============================================
+        function updateEditParticipant(index, field, value) {
+            if (!editParticipants[index]) {
+                editParticipants[index] = {};
+            }
+            
+            if (field === 'age') {
+                value = parseInt(value) || 0;
+            }
+            
+            editParticipants[index][field] = value;
+        }
+
+        // ============================================
+        // ADD EDIT PARTICIPANT
+        // ============================================
+        function addEditParticipant() {
+            editParticipants.push({ name: '', ic: '', age: '' });
+            renderEditParticipants();
+        }
+
+        // ============================================
+        // REMOVE EDIT PARTICIPANT
+        // ============================================
+        function removeEditParticipant(index) {
+            editParticipants.splice(index, 1);
+            renderEditParticipants();
+        }
+
+        // ============================================
+        // UPDATE EDIT BOOKING AMOUNT
+        // ============================================
+        function updateEditBookingAmount() {
+            const ticketType = document.getElementById('editTicketType').value;
+            const quantity = parseInt(document.getElementById('editQuantity').value) || 1;
+            
+            let amount = 0;
+            if (ticketType === 'group') {
+                amount = 180.00;
+                document.getElementById('editQuantity').value = 3;
+            } else {
+                amount = 65.00 * quantity;
+            }
+            
+            document.getElementById('editAmount').value = amount.toFixed(2);
+        }
+
+        // ============================================
+        // SAVE EDIT BOOKING
+        // ============================================
+        async function saveEditBooking(e) {
+            e.preventDefault();
+            
+            const docId = document.getElementById('editDocId').value;
+            const contactPerson = document.getElementById('editContactPerson').value;
+            const email = document.getElementById('editEmail').value;
+            const phone = document.getElementById('editPhone').value;
+            const ticketType = document.getElementById('editTicketType').value;
+            const quantity = parseInt(document.getElementById('editQuantity').value);
+            const status = document.getElementById('editStatus').value;
+            const amount = parseFloat(document.getElementById('editAmount').value);
+            const paymentMethod = document.getElementById('editPaymentMethod').value;
+            const eventDate = document.getElementById('editEventDate').value;
+            
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            // Validate participants
+            const validParticipants = editParticipants.filter(p => p.name && p.ic && p.age);
+            
+            if (validParticipants.length === 0) {
+                alert('Please add at least one participant with complete details.');
+                return;
+            }
+            
+            if (validParticipants.length !== quantity) {
+                alert(`Number of participants (${validParticipants.length}) must match quantity (${quantity}).`);
+                return;
+            }
+            
+            // Validate ages
+            for (let p of validParticipants) {
+                if (p.age < 5 || p.age > 12) {
+                    alert(`Participant ${p.name} age must be between 5 and 12.`);
+                    return;
+                }
+            }
+            
+            showLoading();
+            
+            try {
+                const updateData = {
+                    contactPerson: contactPerson,
+                    email: email,
+                    phone: phone,
+                    ticketType: ticketType,
+                    quantity: quantity,
+                    participants: validParticipants,
+                    amount: amount,
+                    status: status,
+                    paymentMethod: paymentMethod,
+                    eventDate: eventDate,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                await db.collection('bookings').doc(docId).update(updateData);
+                
+                alert('Booking updated successfully!');
+                editBookingModal.style.display = 'none';
+                await loadBookings(); // Reload data
+                
+            } catch (error) {
+                console.error('Error updating booking:', error);
+                alert('Error updating booking. Please try again.');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // ============================================
         // PRINT BOOKING DETAILS
         // ============================================
         function printBookingDetails() {
@@ -1360,36 +1716,6 @@
         }
 
         // ============================================
-        // EDIT BOOKING
-        // ============================================
-        async function editBooking(bookingId) {
-            const newStatus = prompt('Enter new status (paid/pending/cancelled):');
-            if (!newStatus) return;
-            
-            if (!['paid', 'pending', 'cancelled'].includes(newStatus)) {
-                alert('Invalid status. Please enter paid, pending, or cancelled.');
-                return;
-            }
-            
-            showLoading();
-            
-            try {
-                await db.collection('bookings').doc(bookingId).update({
-                    status: newStatus
-                });
-                
-                alert('Booking status updated successfully!');
-                await loadBookings(); // Reload data
-                
-            } catch (error) {
-                console.error('Error updating booking:', error);
-                alert('Error updating booking. Please try again.');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        // ============================================
         // DELETE BOOKING
         // ============================================
         async function deleteBooking(bookingId) {
@@ -1428,6 +1754,13 @@
             const amount = parseFloat(document.getElementById('newAmount').value);
             const participantsText = document.getElementById('newParticipants').value;
             
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
             // Validate participants
             const participants = [];
             if (participantsText.trim()) {
@@ -1435,13 +1768,28 @@
                 for (let i = 0; i < lines.length; i++) {
                     const parts = lines[i].split(',').map(part => part.trim());
                     if (parts.length >= 3) {
+                        const age = parseInt(parts[2]);
+                        if (age < 5 || age > 12) {
+                            alert(`Participant ${parts[0]} age must be between 5 and 12.`);
+                            return;
+                        }
                         participants.push({
                             name: parts[0],
                             ic: parts[1],
-                            age: parseInt(parts[2])
+                            age: age
                         });
                     }
                 }
+            }
+            
+            if (participants.length === 0) {
+                alert('Please add at least one participant.');
+                return;
+            }
+            
+            if (participants.length !== quantity) {
+                alert(`Number of participants (${participants.length}) must match quantity (${quantity}).`);
+                return;
             }
             
             // Generate booking ID
@@ -1621,13 +1969,18 @@
             
             // Modal close events
             closeModalBtn.addEventListener('click', () => bookingDetailsModal.style.display = 'none');
+            closeEditModalBtn.addEventListener('click', () => editBookingModal.style.display = 'none');
             closeAddModalBtn.addEventListener('click', () => addBookingModal.style.display = 'none');
             cancelAddBtn.addEventListener('click', () => addBookingModal.style.display = 'none');
+            cancelEditBtn.addEventListener('click', () => editBookingModal.style.display = 'none');
             
             // Close modal when clicking outside
             window.addEventListener('click', (event) => {
                 if (event.target === bookingDetailsModal) {
                     bookingDetailsModal.style.display = 'none';
+                }
+                if (event.target === editBookingModal) {
+                    editBookingModal.style.display = 'none';
                 }
                 if (event.target === addBookingModal) {
                     addBookingModal.style.display = 'none';
@@ -1642,18 +1995,25 @@
             
             // Form events
             addBookingForm.addEventListener('submit', addNewBooking);
+            editBookingForm.addEventListener('submit', saveEditBooking);
             
-            // Ticket type change event for new booking form
+            // Ticket type change events
             newTicketType.addEventListener('change', updateNewBookingAmount);
             newQuantity.addEventListener('change', updateNewBookingAmount);
+            
+            document.getElementById('editTicketType').addEventListener('change', updateEditBookingAmount);
+            document.getElementById('editQuantity').addEventListener('change', updateEditBookingAmount);
         });
 
         // Make functions globally available
         window.changePage = changePage;
         window.viewBookingDetails = viewBookingDetails;
-        window.editBooking = editBooking;
+        window.openEditBookingModal = openEditBookingModal;
         window.deleteBooking = deleteBooking;
         window.printBookingDetails = printBookingDetails;
+        window.addEditParticipant = addEditParticipant;
+        window.removeEditParticipant = removeEditParticipant;
+        window.updateEditParticipant = updateEditParticipant;
     </script>
 </body>
 </html>
