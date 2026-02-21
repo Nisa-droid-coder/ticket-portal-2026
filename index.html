@@ -371,6 +371,24 @@ header::after {
             background-color: #5a6268;
         }
         
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
         .quantity-selector {
             display: flex;
             align-items: center;
@@ -571,21 +589,176 @@ header::after {
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
         
         .payment-method:hover {
             border-color: #4CAF50;
             background-color: rgba(76, 175, 80, 0.05);
+            transform: translateY(-2px);
         }
         
         .payment-method.selected {
             border-color: #4CAF50;
             background-color: rgba(76, 175, 80, 0.1);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
         }
         
         .payment-method i {
             font-size: 2.5rem;
             color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        
+        .payment-method .popular-badge {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background-color: #ff5722;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .payment-detail-form {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            display: none;
+        }
+        
+        .payment-detail-form.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .bank-logos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .bank-option {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: white;
+        }
+        
+        .bank-option:hover {
+            border-color: #4CAF50;
+            background-color: #f0f9f0;
+        }
+        
+        .bank-option.selected {
+            border-color: #4CAF50;
+            background-color: #e8f5e8;
+            font-weight: 600;
+        }
+        
+        .bank-option img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 5px;
+        }
+        
+        .card-input {
+            margin-bottom: 15px;
+        }
+        
+        .card-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .card-row .form-group {
+            flex: 1;
+        }
+        
+        .payment-status {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+        
+        .payment-status.active {
+            display: block;
+        }
+        
+        .payment-status .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        .payment-status.success i {
+            font-size: 5rem;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .payment-status.failed i {
+            font-size: 5rem;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        
+        .otp-input {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .otp-input input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .otp-input input:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+        
+        .secure-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            background-color: #e8f5e8;
+            color: #2e7d32;
+            border-radius: 20px;
+            font-size: 0.85rem;
             margin-bottom: 15px;
         }
         
@@ -646,6 +819,39 @@ header::after {
             font-size: 0.9rem;
             border-top: 1px solid #eee;
             margin-top: 30px;
+        }
+        
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .loading-text {
+            color: white;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         @media (max-width: 992px) {
@@ -712,6 +918,14 @@ header::after {
                 flex-direction: column;
                 gap: 10px;
             }
+            
+            .bank-logos {
+                flex-direction: column;
+            }
+            
+            .card-row {
+                flex-direction: column;
+            }
         }
         
         @media (max-width: 480px) {
@@ -749,39 +963,13 @@ header::after {
                 gap: 10px;
             }
         }
-        
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #4CAF50;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Processing...</div>
     </div>
 
     <header>
@@ -953,7 +1141,7 @@ header::after {
                     </div>
                     <div class="preview-item">
                         <span class="preview-label">Event Date:</span>
-                        <span class="preview-value">13th June 2024</span>
+                        <span class="preview-value">13th June 2026</span>
                     </div>
                     <div class="preview-item">
                         <span class="preview-label">Number of Tickets:</span>
@@ -967,70 +1155,214 @@ header::after {
                 
                 <div class="navigation-buttons">
                     <button class="btn btn-secondary" onclick="goToPage(2)">Back</button>
-                    <button class="btn btn-primary" onclick="validateParticipantDetails()">GO TO PAYMENT</button>
+                    <button class="btn btn-primary" onclick="validateParticipantDetails()">PROCEED TO PAYMENT</button>
                 </div>
                 
                 <p style="margin-top: 20px; color: #666; font-size: 0.9rem; text-align: center;">
-                    <i class="fas fa-info-circle"></i> Clicking "Go to Payment" will directly go to FPX UPM
+                    <i class="fas fa-lock"></i> Your information is secure and encrypted
                 </p>
             </div>
             
             <!-- Page 4: Payment -->
             <div class="page" id="page4">
-                <h2>Payment</h2>
-                <p>Complete your payment using FPX (Financial Process Exchange) UPM</p>
-                
-                <div class="ticket-preview">
-                    <h4>Payment Summary</h4>
-                    <div class="preview-item">
-                        <span class="preview-label">Contact Person:</span>
-                        <span class="preview-value" id="paymentContact">-</span>
-                    </div>
-                    <div class="preview-item">
-                        <span class="preview-label">Amount to Pay:</span>
-                        <span class="preview-value" id="paymentAmount">RM 65.00</span>
-                    </div>
-                    <div class="preview-item">
-                        <span class="preview-label">Booking Reference:</span>
-                        <span class="preview-value" id="paymentReference">YSD-2024-001</span>
-                    </div>
-                    <div class="preview-item">
-                        <span class="preview-label">Number of Participants:</span>
-                        <span class="preview-value" id="paymentParticipants">1</span>
+                <div id="paymentMainContent">
+                    <h2>Payment</h2>
+                    <p>Complete your payment using one of the secure methods below</p>
+                    
+                    <div class="ticket-preview">
+                        <h4>Payment Summary</h4>
+                        <div class="preview-item">
+                            <span class="preview-label">Contact Person:</span>
+                            <span class="preview-value" id="paymentContact">-</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Amount to Pay:</span>
+                            <span class="preview-value" id="paymentAmount">RM 65.00</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Booking Reference:</span>
+                            <span class="preview-value" id="paymentReference">YSD-2026-001</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Number of Participants:</span>
+                            <span class="preview-value" id="paymentParticipants">1</span>
+                        </div>
+                        
+                        <div class="participants-summary" id="participantsSummary">
+                            <!-- Participants list will be added here -->
+                        </div>
                     </div>
                     
-                    <div class="participants-summary" id="participantsSummary">
-                        <!-- Participants list will be added here -->
+                    <h3 style="margin: 30px 0 20px;">Select Payment Method</h3>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-method selected" id="fpxMethod" onclick="selectPayment('fpx')">
+                            <div class="popular-badge">MOST POPULAR</div>
+                            <i class="fas fa-university"></i>
+                            <h4>FPX (Online Banking)</h4>
+                            <p>Direct bank transfer via FPX</p>
+                        </div>
+                        <div class="payment-method" id="cardMethod" onclick="selectPayment('card')">
+                            <i class="far fa-credit-card"></i>
+                            <h4>Credit/Debit Card</h4>
+                            <p>Visa, Mastercard, Amex</p>
+                        </div>
+                        <div class="payment-method" id="ewalletMethod" onclick="selectPayment('ewallet')">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h4>E-Wallet</h4>
+                            <p>Touch 'n Go, GrabPay, ShopeePay</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FPX Payment Form -->
+                    <div class="payment-detail-form active" id="fpxForm">
+                        <div class="secure-badge">
+                            <i class="fas fa-lock"></i> Secured by FPX • 256-bit SSL Encryption
+                        </div>
+                        <h4>Select Your Bank</h4>
+                        <div class="bank-logos">
+                            <div class="bank-option selected" onclick="selectBank('maybank')">
+                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
+                                <div>Maybank</div>
+                            </div>
+                            <div class="bank-option" onclick="selectBank('cimb')">
+                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
+                                <div>CIMB Bank</div>
+                            </div>
+                            <div class="bank-option" onclick="selectBank('public')">
+                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
+                                <div>Public Bank</div>
+                            </div>
+                            <div class="bank-option" onclick="selectBank('rhb')">
+                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
+                                <div>RHB Bank</div>
+                            </div>
+                            <div class="bank-option" onclick="selectBank('hongleong')">
+                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
+                                <div>Hong Leong</div>
+                            </div>
+                            <div class="bank-option" onclick="selectBank('ambank')">
+                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
+                                <div>AmBank</div>
+                            </div>
+                        </div>
+                        <p style="color: #666; font-size: 0.9rem; margin: 10px 0;">
+                            <i class="fas fa-info-circle"></i> You will be redirected to your bank's secure login page
+                        </p>
+                    </div>
+                    
+                    <!-- Credit Card Payment Form -->
+                    <div class="payment-detail-form" id="cardForm">
+                        <div class="secure-badge">
+                            <i class="fas fa-lock"></i> Secured by PCI DSS • 256-bit SSL Encryption
+                        </div>
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNumber(this)">
+                        </div>
+                        <div class="card-row">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="text" class="form-control" id="cardCvv" placeholder="123" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Cardholder Name</label>
+                            <input type="text" class="form-control" id="cardName" placeholder="As per card">
+                        </div>
+                    </div>
+                    
+                    <!-- E-Wallet Payment Form -->
+                    <div class="payment-detail-form" id="ewalletForm">
+                        <div class="secure-badge">
+                            <i class="fas fa-lock"></i> Secured by E-Wallet Partner
+                        </div>
+                        <h4>Select E-Wallet</h4>
+                        <div class="bank-logos">
+                            <div class="bank-option selected" onclick="selectWallet('tng')">
+                                <i class="fas fa-mobile-alt" style="font-size: 1.5rem;"></i>
+                                <div>Touch 'n Go</div>
+                            </div>
+                            <div class="bank-option" onclick="selectWallet('grab')">
+                                <i class="fas fa-mobile-alt" style="font-size: 1.5rem;"></i>
+                                <div>GrabPay</div>
+                            </div>
+                            <div class="bank-option" onclick="selectWallet('shopeepay')">
+                                <i class="fas fa-mobile-alt" style="font-size: 1.5rem;"></i>
+                                <div>ShopeePay</div>
+                            </div>
+                        </div>
+                        <p style="color: #666; font-size: 0.9rem; margin: 15px 0;">
+                            <i class="fas fa-qrcode"></i> You will be prompted to scan a QR code or login to your e-wallet
+                        </p>
+                    </div>
+                    
+                    <div class="navigation-buttons">
+                        <button class="btn btn-secondary" onclick="goToPage(3)">Back</button>
+                        <button class="btn btn-success" id="payNowBtn" onclick="initiatePayment()">
+                            <i class="fas fa-lock"></i> PAY NOW • RM <span id="payNowAmount">65.00</span>
+                        </button>
                     </div>
                 </div>
                 
-                <h3 style="margin: 30px 0 20px;">Select Payment Method</h3>
-                
-                <div class="payment-methods">
-                    <div class="payment-method selected" onclick="selectPayment('fpx')">
-                        <i class="fas fa-university"></i>
-                        <h4>FPX UPM</h4>
-                        <p>Direct bank transfer via FPX</p>
+                <!-- Payment Processing Status -->
+                <div id="paymentProcessing" style="display: none;">
+                    <div class="payment-status active" id="processingStatus">
+                        <div class="spinner"></div>
+                        <h3>Processing Payment</h3>
+                        <p id="processingMessage">Please do not close this window...</p>
+                        <div style="margin-top: 20px; color: #666;">
+                            <i class="fas fa-clock"></i> Estimated time: 10-30 seconds
+                        </div>
                     </div>
-                    <div class="payment-method" onclick="selectPayment('card')">
-                        <i class="far fa-credit-card"></i>
-                        <h4>Credit/Debit Card</h4>
-                        <p>Visa, Mastercard, etc.</p>
+                    
+                    <div class="payment-status" id="otpStatus">
+                        <i class="fas fa-shield-alt" style="font-size: 4rem; color: #4CAF50; margin-bottom: 20px;"></i>
+                        <h3>3D Secure Authentication</h3>
+                        <p>Enter the 6-digit code sent to your registered mobile</p>
+                        <div class="otp-input">
+                            <input type="text" maxlength="1" oninput="moveToNext(this, 0)" onkeydown="handleBackspace(event, 0)" id="otp1">
+                            <input type="text" maxlength="1" oninput="moveToNext(this, 1)" onkeydown="handleBackspace(event, 1)" id="otp2">
+                            <input type="text" maxlength="1" oninput="moveToNext(this, 2)" onkeydown="handleBackspace(event, 2)" id="otp3">
+                            <input type="text" maxlength="1" oninput="moveToNext(this, 3)" onkeydown="handleBackspace(event, 3)" id="otp4">
+                            <input type="text" maxlength="1" oninput="moveToNext(this, 4)" onkeydown="handleBackspace(event, 4)" id="otp5">
+                            <input type="text" maxlength="1" oninput="moveToNext(this, 5)" onkeydown="handleBackspace(event, 5)" id="otp6">
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="verifyOTP()">Verify</button>
+                            <button class="btn btn-secondary" onclick="cancelOTP()">Cancel</button>
+                        </div>
+                        <p style="margin-top: 15px; color: #666;">
+                            <i class="fas fa-clock"></i> Code expires in <span id="otpTimer">180</span>s
+                        </p>
                     </div>
-                    <div class="payment-method" onclick="selectPayment('ewallet')">
-                        <i class="fas fa-mobile-alt"></i>
-                        <h4>E-Wallet</h4>
-                        <p>Touch 'n Go, GrabPay, etc.</p>
+                    
+                    <div class="payment-status" id="successStatus">
+                        <i class="fas fa-check-circle" style="font-size: 5rem; color: #4CAF50; margin-bottom: 20px;"></i>
+                        <h3>Payment Successful!</h3>
+                        <p>Your transaction has been completed.</p>
+                        <button class="btn btn-primary" onclick="completePayment()" style="margin-top: 20px;">
+                            Continue to Confirmation
+                        </button>
                     </div>
-                </div>
-                
-                <div class="navigation-buttons">
-                    <button class="btn btn-secondary" onclick="goToPage(3)">Back</button>
-                    <button class="btn btn-primary" onclick="processPayment()">PAY NOW</button>
+                    
+                    <div class="payment-status" id="failedStatus">
+                        <i class="fas fa-times-circle" style="font-size: 5rem; color: #dc3545; margin-bottom: 20px;"></i>
+                        <h3>Payment Failed</h3>
+                        <p id="failedMessage">Transaction could not be processed. Please try again.</p>
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="retryPayment()">Try Again</button>
+                            <button class="btn btn-secondary" onclick="goToPage(3)">Back to Details</button>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="note" style="margin-top: 30px;">
-                    <p><strong>Note:</strong> After purchasing ticket, the admission tickets will be sent to your email. Participant details will be used for certificate preparation.</p>
+                    <p><strong>Note:</strong> After successful payment, admission tickets will be sent to your email. Participant details will be used for certificate preparation.</p>
                 </div>
             </div>
             
@@ -1041,7 +1373,7 @@ header::after {
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <h2>Booking Successful!</h2>
-                    <p>Your admission tickets for YSD2024 UPM have been booked successfully.</p>
+                    <p>Your admission tickets for YSD2026 UPM have been booked successfully.</p>
                     <p>The admission tickets will be sent to your email shortly.</p>
                     
                     <div class="booking-id" id="confirmationRef">YSD-2026-001</div>
@@ -1061,6 +1393,10 @@ header::after {
                             <span class="preview-value" id="confirmationQuantity">1</span>
                         </div>
                         <div class="preview-item">
+                            <span class="preview-label">Payment Method:</span>
+                            <span class="preview-value" id="confirmationPaymentMethod">FPX</span>
+                        </div>
+                        <div class="preview-item">
                             <span class="preview-label">Booking Reference ID:</span>
                             <span class="preview-value" id="confirmationBookingRef">-</span>
                         </div>
@@ -1068,6 +1404,11 @@ header::after {
                         <div class="participants-summary" id="confirmationParticipants">
                             <!-- Participants list for confirmation -->
                         </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; background-color: #f0f9f0; padding: 15px; border-radius: 5px;">
+                        <i class="fas fa-envelope" style="color: #4CAF50;"></i>
+                        <strong>Check your email!</strong> We've sent the tickets to your inbox.
                     </div>
                     
                     <p style="margin-top: 30px;">
@@ -1082,7 +1423,8 @@ header::after {
             <p>YSD2026 Universiti Putra Malaysia &copy; 2026. All rights reserved.</p>
             <p>For inquiries, contact: ysd2026@upm.edu.my | +603-9769 1234</p>
             <p style="margin-top: 10px; font-size: 0.8rem;">
-                <a href="login.html" style="color: #666; text-decoration: none;">
+                <i class="fas fa-shield-alt"></i> PCI DSS Compliant | 256-bit SSL Encryption
+                <a href="login.html" style="color: #666; text-decoration: none; margin-left: 15px;">
                     <i class="fas fa-lock"></i> Admin Access
                 </a>
             </p>
@@ -1090,33 +1432,43 @@ header::after {
     </div>
 
     <script>
-        // Initialize Firebase (you'll add your config here)
+        // ============================================
+        // FIREBASE CONFIGURATION
+        // ============================================
         const firebaseConfig = {
-  apiKey: "AIzaSyABaOMohXrju_OelcUQLAxlIBy809ob3uI",
-  authDomain: "ysd2026-upm-tickets.firebaseapp.com",
-  projectId: "ysd2026-upm-tickets",
-  storageBucket: "ysd2026-upm-tickets.firebasestorage.app",
-  messagingSenderId: "350674755825",
-  appId: "1:350674755825:web:143f8ee11a2fb568080950",
-  measurementId: "G-Y4R80MP8P2"
-};
+            apiKey: "AIzaSyABaOMohXrju_OelcUQLAxlIBy809ob3uI",
+            authDomain: "ysd2026-upm-tickets.firebaseapp.com",
+            projectId: "ysd2026-upm-tickets",
+            storageBucket: "ysd2026-upm-tickets.firebasestorage.app",
+            messagingSenderId: "350674755825",
+            appId: "1:350674755825:web:143f8ee11a2fb568080950",
+            measurementId: "G-Y4R80MP8P2"
+        };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         
-        // Current page state
+        // ============================================
+        // GLOBAL VARIABLES
+        // ============================================
         let currentPage = 1;
         let ticketQuantity = 1;
-        let ticketType = 'single'; // 'single' or 'group'
+        let ticketType = 'single';
         const singleTicketPrice = 65.00;
-        const groupTicketPrice = 180.00; // for 3 tickets
+        const groupTicketPrice = 180.00;
         let selectedPayment = 'fpx';
+        let selectedBank = 'maybank';
+        let selectedWallet = 'tng';
         let participants = [];
         let currentBookingId = null;
+        let paymentInProgress = false;
+        let otpTimer = null;
+        let otpCode = '';
         
         // DOM elements
         const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
         const quantityInput = document.getElementById('quantity');
         const totalAmountElement = document.getElementById('totalAmount');
         const totalSavingsElement = document.getElementById('totalSavings');
@@ -1136,11 +1488,30 @@ header::after {
         const confirmationDateElement = document.getElementById('confirmationDate');
         const confirmationQuantityElement = document.getElementById('confirmationQuantity');
         const confirmationBookingRefElement = document.getElementById('confirmationBookingRef');
+        const confirmationPaymentMethodElement = document.getElementById('confirmationPaymentMethod');
         const confirmationRefElement = document.getElementById('confirmationRef');
         const confirmationParticipantsElement = document.getElementById('confirmationParticipants');
+        const payNowAmount = document.getElementById('payNowAmount');
         
-        // Show/hide loading
-        function showLoading() {
+        // Payment form elements
+        const paymentMainContent = document.getElementById('paymentMainContent');
+        const paymentProcessing = document.getElementById('paymentProcessing');
+        const processingStatus = document.getElementById('processingStatus');
+        const otpStatus = document.getElementById('otpStatus');
+        const successStatus = document.getElementById('successStatus');
+        const failedStatus = document.getElementById('failedStatus');
+        const fpxForm = document.getElementById('fpxForm');
+        const cardForm = document.getElementById('cardForm');
+        const ewalletForm = document.getElementById('ewalletForm');
+        const fpxMethod = document.getElementById('fpxMethod');
+        const cardMethod = document.getElementById('cardMethod');
+        const ewalletMethod = document.getElementById('ewalletMethod');
+        
+        // ============================================
+        // HELPER FUNCTIONS
+        // ============================================
+        function showLoading(message = 'Processing...') {
+            loadingText.textContent = message;
             loadingOverlay.style.display = 'flex';
         }
         
@@ -1148,34 +1519,32 @@ header::after {
             loadingOverlay.style.display = 'none';
         }
         
-        // Initialize the page
+        // ============================================
+        // INITIALIZATION
+        // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             updateTotalAmount();
             updateStepIndicators();
-            // Add initial participant form
             addParticipantForm();
         });
         
-        // Navigation functions
+        // ============================================
+        // NAVIGATION
+        // ============================================
         function goToPage(pageNumber) {
-            // Hide current page
             document.getElementById(`page${currentPage}`).classList.remove('active');
-            
-            // Show new page
             document.getElementById(`page${pageNumber}`).classList.add('active');
-            
-            // Update current page
             currentPage = pageNumber;
-            
-            // Update step indicators
             updateStepIndicators();
-            
-            // Scroll to top
             window.scrollTo(0, 0);
+            
+            // Reset payment UI if leaving payment page
+            if (pageNumber !== 4) {
+                resetPaymentUI();
+            }
         }
         
         function updateStepIndicators() {
-            // Reset all steps
             for (let i = 1; i <= 5; i++) {
                 const stepElement = document.getElementById(`step${i}`);
                 stepElement.classList.remove('active', 'completed');
@@ -1188,12 +1557,13 @@ header::after {
             }
         }
         
-        // Page 1: Select Ticket
+        // ============================================
+        // TICKET SELECTION
+        // ============================================
         function selectTicket(type) {
             ticketType = type;
             
             if (type === 'group') {
-                // Set to 3 tickets for group package
                 ticketQuantity = 3;
                 quantityInput.value = 3;
                 quantityInput.min = 3;
@@ -1206,7 +1576,6 @@ header::after {
                 bookingTicketPriceElement.classList.add('ticket-price-discounted');
                 previewTicketTypeElement.textContent = 'Group Package (3 Tickets)';
             } else {
-                // Single ticket
                 ticketQuantity = 1;
                 quantityInput.value = 1;
                 quantityInput.min = 1;
@@ -1224,18 +1593,18 @@ header::after {
             goToPage(2);
         }
         
-        // Page 2: Booking Options
+        // ============================================
+        // QUANTITY MANAGEMENT
+        // ============================================
         function increaseQuantity() {
-            if (ticketType === 'group') return; // Can't change quantity for group package
-            
+            if (ticketType === 'group') return;
             ticketQuantity = parseInt(quantityInput.value) + 1;
             quantityInput.value = ticketQuantity;
             updateTotalAmount();
         }
         
         function decreaseQuantity() {
-            if (ticketType === 'group') return; // Can't change quantity for group package
-            
+            if (ticketType === 'group') return;
             if (ticketQuantity > 1) {
                 ticketQuantity = parseInt(quantityInput.value) - 1;
                 quantityInput.value = ticketQuantity;
@@ -1273,44 +1642,32 @@ header::after {
                 totalSavingsElement.style.display = 'none';
                 promoMessageElement.style.display = 'none';
                 
-                // Check if quantity qualifies for group discount
                 if (ticketQuantity >= 3) {
-                    // Suggest group package
                     promoMessageElement.innerHTML = `<p style="color: #2e7d32; margin: 0;"><i class="fas fa-info-circle"></i> <strong>Tip:</strong> You can save RM ${(singleTicketPrice * 3 - groupTicketPrice).toFixed(2)} by selecting the Group Package (3 tickets for RM 180.00)</p>`;
                     promoMessageElement.style.display = 'block';
                 }
             }
             
             totalAmountElement.textContent = `RM ${total.toFixed(2)}`;
-            
-            // Update preview on page 3
             previewQuantityElement.textContent = ticketQuantity;
             previewTotalElement.textContent = `RM ${total.toFixed(2)}`;
-            
-            // Update payment amount on page 4
             paymentAmountElement.textContent = `RM ${total.toFixed(2)}`;
-            
-            // Update confirmation quantity on page 5
+            payNowAmount.textContent = total.toFixed(2);
             confirmationQuantityElement.textContent = ticketQuantity;
         }
         
         function bookNow() {
-            // Update participant forms based on quantity
             updateParticipantForms();
-            
             goToPage(3);
         }
         
-        function addToCart() {
-            alert(`Added ${ticketQuantity} ticket(s) to cart! Total: RM ${(ticketType === 'group' ? groupTicketPrice : ticketQuantity * singleTicketPrice).toFixed(2)}`);
-        }
-        
-        // Page 3: Participant Details
+        // ============================================
+        // PARTICIPANT MANAGEMENT
+        // ============================================
         function updateParticipantForms() {
             const container = document.getElementById('participantsContainer');
             container.innerHTML = '';
             
-            // Add forms for each ticket
             for (let i = 1; i <= ticketQuantity; i++) {
                 addParticipantForm(i);
             }
@@ -1344,26 +1701,25 @@ header::after {
             container.appendChild(participantForm);
         }
         
+        // ============================================
+        // VALIDATE AND SAVE BOOKING
+        // ============================================
         async function validateParticipantDetails() {
-            // Get contact person details
             const contactPerson = document.getElementById('contactPerson').value;
             const contactEmail = document.getElementById('contactEmail').value;
             const contactPhone = document.getElementById('contactPhone').value;
             
-            // Simple validation for contact person
             if (!contactPerson || !contactEmail || !contactPhone) {
                 alert('Please fill in all contact person details.');
                 return;
             }
             
-            // Validate email format
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(contactEmail)) {
                 alert('Please enter a valid email address.');
                 return;
             }
             
-            // Validate participant details
             const participantCount = document.getElementById('participantsContainer').children.length;
             participants = [];
             
@@ -1390,14 +1746,11 @@ header::after {
                 });
             }
             
-            // Generate total amount
             const total = ticketType === 'group' ? groupTicketPrice : ticketQuantity * singleTicketPrice;
-            
-            // Generate booking ID
             const bookingId = 'YSD-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
             
-            // Save to Firestore
-            showLoading();
+            showLoading('Saving booking details...');
+            
             try {
                 const bookingData = {
                     bookingId: bookingId,
@@ -1409,7 +1762,6 @@ header::after {
                     participants: participants,
                     amount: total,
                     status: 'pending',
-                    paymentMethod: selectedPayment,
                     bookingDate: firebase.firestore.FieldValue.serverTimestamp(),
                     eventDate: '2026-06-13'
                 };
@@ -1417,12 +1769,10 @@ header::after {
                 const docRef = await db.collection('bookings').add(bookingData);
                 currentBookingId = docRef.id;
                 
-                // Update payment page with user info
                 paymentContactElement.textContent = contactPerson;
                 paymentParticipantsElement.textContent = participantCount;
                 paymentReferenceElement.textContent = bookingId;
                 
-                // Update participants summary
                 updateParticipantsSummary();
                 
                 hideLoading();
@@ -1456,7 +1806,9 @@ header::after {
             });
         }
         
-        // Page 4: Payment
+        // ============================================
+        // PAYMENT METHODS
+        // ============================================
         function selectPayment(method) {
             selectedPayment = method;
             
@@ -1465,23 +1817,254 @@ header::after {
                 el.classList.remove('selected');
             });
             
+            document.getElementById(method + 'Method').classList.add('selected');
+            
+            // Show/hide payment forms
+            fpxForm.classList.remove('active');
+            cardForm.classList.remove('active');
+            ewalletForm.classList.remove('active');
+            
+            document.getElementById(method + 'Form').classList.add('active');
+        }
+        
+        function selectBank(bank) {
+            selectedBank = bank;
+            document.querySelectorAll('#fpxForm .bank-option').forEach(el => {
+                el.classList.remove('selected');
+            });
             event.currentTarget.classList.add('selected');
         }
         
-        async function processPayment() {
+        function selectWallet(wallet) {
+            selectedWallet = wallet;
+            document.querySelectorAll('#ewalletForm .bank-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+        
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\D/g, '');
+            let formattedValue = '';
+            
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+            
+            input.value = formattedValue;
+        }
+        
+        function formatExpiry(input) {
+            let value = input.value.replace(/\D/g, '');
+            
+            if (value.length >= 2) {
+                input.value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            } else {
+                input.value = value;
+            }
+        }
+        
+        // ============================================
+        // PAYMENT PROCESSING
+        // ============================================
+        function initiatePayment() {
+            if (paymentInProgress) return;
+            
+            // Validate payment details based on selected method
+            if (selectedPayment === 'card') {
+                const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                const cardExpiry = document.getElementById('cardExpiry').value;
+                const cardCvv = document.getElementById('cardCvv').value;
+                const cardName = document.getElementById('cardName').value;
+                
+                if (cardNumber.length < 16) {
+                    alert('Please enter a valid 16-digit card number');
+                    return;
+                }
+                
+                if (!cardExpiry.match(/^\d{2}\/\d{2}$/)) {
+                    alert('Please enter a valid expiry date (MM/YY)');
+                    return;
+                }
+                
+                if (cardCvv.length < 3) {
+                    alert('Please enter a valid CVV');
+                    return;
+                }
+                
+                if (!cardName) {
+                    alert('Please enter the cardholder name');
+                    return;
+                }
+            }
+            
+            paymentInProgress = true;
+            
+            // Hide main content, show processing
+            paymentMainContent.style.display = 'none';
+            paymentProcessing.style.display = 'block';
+            
+            // Show processing status
+            processingStatus.style.display = 'block';
+            otpStatus.style.display = 'none';
+            successStatus.style.display = 'none';
+            failedStatus.style.display = 'none';
+            
+            // Simulate payment processing
+            let progress = 0;
+            const processingMessages = [
+                'Connecting to payment gateway...',
+                'Verifying payment details...',
+                'Processing transaction...',
+                'Almost there...'
+            ];
+            
+            const processingInterval = setInterval(() => {
+                if (progress < processingMessages.length) {
+                    document.getElementById('processingMessage').textContent = processingMessages[progress];
+                    progress++;
+                }
+            }, 2000);
+            
+            // After 8 seconds, show OTP or success based on payment method
+            setTimeout(() => {
+                clearInterval(processingInterval);
+                
+                if (selectedPayment === 'fpx' || selectedPayment === 'card') {
+                    // Show OTP verification for FPX and Card
+                    processingStatus.style.display = 'none';
+                    otpStatus.style.display = 'block';
+                    startOTPTimer();
+                } else {
+                    // E-wallet shows success directly (simulating QR scan)
+                    processingStatus.style.display = 'none';
+                    successStatus.style.display = 'block';
+                }
+            }, 8000);
+        }
+        
+        function startOTPTimer() {
+            let timeLeft = 180;
+            const timerElement = document.getElementById('otpTimer');
+            
+            otpTimer = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(otpTimer);
+                    handleOTPExpired();
+                }
+            }, 1000);
+        }
+        
+        function moveToNext(input, index) {
+            if (input.value.length === 1) {
+                const next = document.getElementById(`otp${index + 2}`);
+                if (next) {
+                    next.focus();
+                }
+            }
+            
+            // Build OTP code
+            let code = '';
+            for (let i = 1; i <= 6; i++) {
+                code += document.getElementById(`otp${i}`).value || '';
+            }
+            otpCode = code;
+        }
+        
+        function handleBackspace(event, index) {
+            if (event.key === 'Backspace' && !event.target.value) {
+                const prev = document.getElementById(`otp${index}`);
+                if (prev) {
+                    prev.focus();
+                }
+            }
+        }
+        
+        function verifyOTP() {
+            if (otpCode.length < 6) {
+                alert('Please enter the complete 6-digit OTP');
+                return;
+            }
+            
+            clearInterval(otpTimer);
+            
+            // Simulate OTP verification
+            showLoading('Verifying OTP...');
+            
+            setTimeout(() => {
+                hideLoading();
+                
+                // 90% success rate simulation
+                if (Math.random() < 0.9) {
+                    otpStatus.style.display = 'none';
+                    successStatus.style.display = 'block';
+                } else {
+                    otpStatus.style.display = 'none';
+                    document.getElementById('failedMessage').textContent = 'Invalid OTP code. Please try again.';
+                    failedStatus.style.display = 'block';
+                    paymentInProgress = false;
+                }
+            }, 2000);
+        }
+        
+        function cancelOTP() {
+            clearInterval(otpTimer);
+            resetPaymentUI();
+        }
+        
+        function handleOTPExpired() {
+            otpStatus.style.display = 'none';
+            document.getElementById('failedMessage').textContent = 'OTP has expired. Please try again.';
+            failedStatus.style.display = 'block';
+            paymentInProgress = false;
+        }
+        
+        function retryPayment() {
+            resetPaymentUI();
+        }
+        
+        function resetPaymentUI() {
+            paymentMainContent.style.display = 'block';
+            paymentProcessing.style.display = 'none';
+            paymentInProgress = false;
+            
+            // Clear OTP inputs
+            for (let i = 1; i <= 6; i++) {
+                const otpInput = document.getElementById(`otp${i}`);
+                if (otpInput) otpInput.value = '';
+            }
+        }
+        
+        // ============================================
+        // COMPLETE PAYMENT
+        // ============================================
+        async function completePayment() {
             if (!currentBookingId) {
                 alert('Booking information not found. Please start over.');
                 goToPage(1);
                 return;
             }
             
-            showLoading();
+            showLoading('Finalizing your booking...');
             
             try {
                 // Update booking status to paid
                 await db.collection('bookings').doc(currentBookingId).update({
                     status: 'paid',
                     paymentMethod: selectedPayment,
+                    paymentDetails: {
+                        method: selectedPayment,
+                        ...(selectedPayment === 'fpx' && { bank: selectedBank }),
+                        ...(selectedPayment === 'ewallet' && { wallet: selectedWallet }),
+                        transactionId: 'TXN' + Date.now(),
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    },
                     paymentDate: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 
@@ -1496,6 +2079,12 @@ header::after {
                 const options = { year: 'numeric', month: 'long', day: 'numeric' };
                 confirmationDateElement.textContent = now.toLocaleDateString('en-US', options);
                 
+                // Set payment method text
+                let paymentMethodText = 'FPX - ' + selectedBank.toUpperCase();
+                if (selectedPayment === 'card') paymentMethodText = 'Credit/Debit Card';
+                if (selectedPayment === 'ewallet') paymentMethodText = selectedWallet.toUpperCase();
+                confirmationPaymentMethodElement.textContent = paymentMethodText;
+                
                 // Set booking reference
                 const bookingRef = paymentReferenceElement.textContent;
                 confirmationBookingRefElement.textContent = bookingRef;
@@ -1505,15 +2094,19 @@ header::after {
                 updateConfirmationParticipants();
                 
                 hideLoading();
+                
+                // Reset payment UI and go to confirmation
+                resetPaymentUI();
                 goToPage(5);
                 
-                // Send email notification (optional - would require cloud function)
-                console.log('Payment processed successfully for booking:', currentBookingId);
+                // Simulate email sending
+                console.log('📧 Ticket email sent to:', document.getElementById('contactEmail').value);
                 
             } catch (error) {
                 hideLoading();
-                console.error('Error processing payment:', error);
+                console.error('Error completing payment:', error);
                 alert('Error processing payment. Please try again. Error: ' + error.message);
+                resetPaymentUI();
             }
         }
         
@@ -1539,9 +2132,10 @@ header::after {
             });
         }
         
-        // Page 5: Confirmation
+        // ============================================
+        // PRINT TICKET
+        // ============================================
         function printTicket() {
-            // Generate printable ticket with all participant details
             let participantsHTML = '';
             participants.forEach(p => {
                 participantsHTML += `
@@ -1553,6 +2147,8 @@ header::after {
                     </tr>
                 `;
             });
+            
+            const paymentMethod = confirmationPaymentMethodElement.textContent;
             
             const printContent = `
                 <!DOCTYPE html>
@@ -1573,6 +2169,7 @@ header::after {
                         th { background-color: #f5f5f5; padding: 10px; text-align: left; border-bottom: 2px solid #ddd; }
                         td { padding: 10px; border-bottom: 1px solid #eee; }
                         .footer { text-align: center; margin-top: 30px; font-size: 0.9rem; color: #666; }
+                        .badge { display: inline-block; background-color: #4CAF50; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; margin-bottom: 15px; }
                         @media print {
                             .no-print { display: none; }
                         }
@@ -1581,6 +2178,7 @@ header::after {
                 <body>
                     <div class="ticket">
                         <div class="header">
+                            <div class="badge">PAID</div>
                             <h1>YOUTH SPORTS DAY 2026</h1>
                             <h2>Universiti Putra Malaysia</h2>
                             <p>13th June 2026 | Universiti Putra Malaysia, Serdang</p>
@@ -1598,6 +2196,10 @@ header::after {
                             <div class="info-row">
                                 <span class="label">Date Purchased:</span>
                                 <span class="value">${confirmationDateElement.textContent}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Payment Method:</span>
+                                <span class="value">${paymentMethod}</span>
                             </div>
                             <div class="info-row">
                                 <span class="label">Number of Tickets:</span>
@@ -1621,7 +2223,7 @@ header::after {
                         </table>
                         
                         <div class="footer">
-                            <p>Present this ticket at the event entrance on 13th June 2026</p>
+                            <p><i class="fas fa-qrcode"></i> Present this ticket (print or digital) at the event entrance</p>
                             <p>For inquiries: ysd2026@upm.edu.my | +603-9769 1234</p>
                         </div>
                     </div>
