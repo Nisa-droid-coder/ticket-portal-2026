@@ -10,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <style>
-        /* Your existing styles - keep them exactly as they are */
+        /* Your existing styles - kept exactly as they are */
         * {
             margin: 0;
             padding: 0;
@@ -1043,40 +1043,32 @@ header::after {
         </div>
         
         <div class="main-content">
-            <!-- Page 1: Select Ticket -->
+            <!-- Page 1: Select Ticket (Now only one option, but using same layout) -->
             <div class="page active" id="page1">
                 <h2>Select Admission Ticket</h2>
-                <p class="note"><i class="fas fa-info-circle"></i> Free cancellation before redemption. Special promotions available for group bookings.</p>
+                <p class="note"><i class="fas fa-info-circle"></i> Special bundle: 4 tickets for RM260 (save RM20). Individual ticket RM70.</p>
                 
                 <div class="ticket-option">
                     <h3>Kids (5 to 12 years of age)</h3>
-                    <p>Admission ticket for children between 5 to 12 years old. Includes access to all YSD2024 activities at Universiti Putra Malaysia.</p>
-                    <div class="ticket-price">RM 65.00 <span class="original-price">RM 65.00</span></div>
-                    <button class="btn btn-primary" onclick="selectTicket('single')">SELECT TICKET</button>
-                </div>
-                
-                <div class="ticket-option">
-                    <div class="promo-badge">SPECIAL PROMO</div>
-                    <h3>Group Package (3 Tickets)</h3>
-                    <p>Special promotion for group of 3 participants. Save RM 15 when booking 3 tickets together.</p>
-                    <div class="ticket-price ticket-price-discounted">RM 180.00 <span class="original-price">RM 195.00</span></div>
-                    <p style="color: #ff5722; font-weight: bold; margin-bottom: 20px;"><i class="fas fa-tag"></i> Save RM 15.00 on this package</p>
-                    <button class="btn btn-primary" onclick="selectTicket('group')">SELECT GROUP PACKAGE</button>
+                    <p>Admission ticket for children between 5 to 12 years old. Includes access to all YSD2026 activities at Universiti Putra Malaysia.</p>
+                    <div class="ticket-price">RM 70.00 per person</div>
+                    <p style="margin: 10px 0; background:#f0f7f0; padding:10px; border-radius:5px;"><i class="fas fa-tag"></i> <strong>Bundle offer:</strong> 4 tickets for RM260 (effectively RM65 each)</p>
+                    <button class="btn btn-primary" onclick="selectTicket()">SELECT TICKETS</button>
                 </div>
                 
                 <div class="note">
-                    <p><strong>Note:</strong> When you click SELECT, it will go to the booking options page.</p>
+                    <p><strong>Pricing explained:</strong> Each ticket is RM70. For every 4 tickets, the total for those 4 is RM260 (RM65 each).</p>
                 </div>
             </div>
             
-            <!-- Page 2: Booking Options -->
+            <!-- Page 2: Booking Options (Quantity with dynamic bundle pricing) -->
             <div class="page" id="page2">
                 <h2>Booking Options</h2>
                 
                 <div class="ticket-option">
-                    <h3 id="bookingTicketType">Kids (5 to 12 years of age)</h3>
-                    <p id="bookingTicketDescription">Admission ticket for children between 5 to 12 years old.</p>
-                    <div class="ticket-price" id="bookingTicketPrice">RM 65.00</div>
+                    <h3>Kids (5 to 12 years of age)</h3>
+                    <p>Individual ticket RM70 | Bundle: 4 tickets for RM260</p>
+                    <div class="ticket-price" id="bookingTicketPrice">RM 70.00 each</div>
                     
                     <div class="quantity-selector">
                         <label>Select Quantity:</label>
@@ -1085,17 +1077,17 @@ header::after {
                             <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="20" onchange="validateQuantity()">
                             <button class="quantity-btn" onclick="increaseQuantity()">+</button>
                         </div>
-                        <p style="margin-top: 10px; color: #666; font-size: 0.9rem;"><i class="fas fa-info-circle"></i> Can book as many numbers possible</p>
+                        <p style="margin-top: 10px; color: #666; font-size: 0.9rem;"><i class="fas fa-info-circle"></i> You can book up to 20 tickets.</p>
                         
-                        <div id="promoMessage" style="margin-top: 15px; padding: 10px; background-color: #e8f5e8; border-radius: 5px; display: none;">
-                            <p style="color: #2e7d32; margin: 0;"><i class="fas fa-gift"></i> <strong>Promo Applied:</strong> You're saving RM 15.00 with the group package!</p>
+                        <div id="priceBreakdown" style="margin-top: 15px; padding: 15px; background-color: #e8f5e8; border-radius: 5px;">
+                            <!-- Dynamic price breakdown will appear here -->
                         </div>
                     </div>
                     
                     <div class="total-section">
                         <div class="total-label">Total Amount</div>
-                        <div class="total-amount" id="totalAmount">RM 65.00</div>
-                        <div class="total-savings" id="totalSavings" style="display: none;">You save: RM 15.00</div>
+                        <div class="total-amount" id="totalAmount">RM 70.00</div>
+                        <div class="total-savings" id="totalSavings" style="display: none;">You save: RM 0.00</div>
                     </div>
                     
                     <div class="navigation-buttons">
@@ -1107,10 +1099,10 @@ header::after {
                 </div>
             </div>
             
-            <!-- Page 3: Participant Details -->
+            <!-- Page 3: Participant Details (IC field removed) -->
             <div class="page" id="page3">
                 <h2>Participant Details</h2>
-                <p class="note"><i class="fas fa-ticket-alt"></i> Please provide details for all participants. This information will be used for certificate preparation.</p>
+                <p class="note"><i class="fas fa-ticket-alt"></i> Please provide names and ages for all participants. This information will be used for certificate preparation.</p>
                 
                 <div class="form-group">
                     <label for="contactPerson">Contact Person (Mother/Father/Guardian) *</label>
@@ -1130,14 +1122,14 @@ header::after {
                 <h3 style="margin: 30px 0 20px;">Participants Information <span style="font-size: 1rem; color: #666;">(for certificate preparation)</span></h3>
                 
                 <div id="participantsContainer">
-                    <!-- Participant forms will be dynamically added here -->
+                    <!-- Participant forms (name + age only) will be added here -->
                 </div>
                 
                 <div class="ticket-preview">
                     <h4>Booking Summary</h4>
                     <div class="preview-item">
                         <span class="preview-label">Ticket Type:</span>
-                        <span class="preview-value" id="previewTicketType">Kids (5 to 12 years of age)</span>
+                        <span class="preview-value" id="previewTicketType">Kids (5-12 years)</span>
                     </div>
                     <div class="preview-item">
                         <span class="preview-label">Event Date:</span>
@@ -1149,7 +1141,7 @@ header::after {
                     </div>
                     <div class="preview-item">
                         <span class="preview-label">Total Amount:</span>
-                        <span class="preview-value" id="previewTotal">RM 65.00</span>
+                        <span class="preview-value" id="previewTotal">RM 70.00</span>
                     </div>
                 </div>
                 
@@ -1163,11 +1155,11 @@ header::after {
                 </p>
             </div>
             
-            <!-- Page 4: Payment -->
+            <!-- Page 4: Payment (only UPM gateway) -->
             <div class="page" id="page4">
                 <div id="paymentMainContent">
                     <h2>Payment</h2>
-                    <p>Complete your payment using one of the secure methods below</p>
+                    <p>Complete your payment using UPM secure payment gateway.</p>
                     
                     <div class="ticket-preview">
                         <h4>Payment Summary</h4>
@@ -1177,7 +1169,7 @@ header::after {
                         </div>
                         <div class="preview-item">
                             <span class="preview-label">Amount to Pay:</span>
-                            <span class="preview-value" id="paymentAmount">RM 65.00</span>
+                            <span class="preview-value" id="paymentAmount">RM 70.00</span>
                         </div>
                         <div class="preview-item">
                             <span class="preview-label">Booking Reference:</span>
@@ -1193,152 +1185,41 @@ header::after {
                         </div>
                     </div>
                     
-                    <h3 style="margin: 30px 0 20px;">Select Payment Method</h3>
-                    
-                    <div class="payment-methods">
-                        <div class="payment-method selected" id="fpxMethod" onclick="selectPayment('fpx')">
-                            <div class="popular-badge">MOST POPULAR</div>
+                    <!-- Only one payment method: UPM Payment Gateway -->
+                    <div class="payment-methods" style="justify-content: center;">
+                        <div class="payment-method selected" id="upmMethod" style="max-width: 300px; margin:0 auto;">
                             <i class="fas fa-university"></i>
-                            <h4>FPX (Online Banking)</h4>
-                            <p>Direct bank transfer via FPX</p>
-                        </div>
-                        <div class="payment-method" id="cardMethod" onclick="selectPayment('card')">
-                            <i class="far fa-credit-card"></i>
-                            <h4>Credit/Debit Card</h4>
-                            <p>Visa, Mastercard, Amex</p>
-                        </div>
-                        <div class="payment-method" id="ewalletMethod" onclick="selectPayment('ewallet')">
-                            <i class="fas fa-mobile-alt"></i>
-                            <h4>E-Wallet</h4>
-                            <p>Touch 'n Go, GrabPay, ShopeePay</p>
+                            <h4>UPM Payment Gateway</h4>
+                            <p>Secure online payment (FPX/Card)</p>
                         </div>
                     </div>
                     
-                    <!-- FPX Payment Form -->
-                    <div class="payment-detail-form active" id="fpxForm">
+                    <!-- Simple form to simulate UPM gateway (no card details required) -->
+                    <div class="payment-detail-form active" id="upmForm" style="text-align: center;">
                         <div class="secure-badge">
-                            <i class="fas fa-lock"></i> Secured by FPX • 256-bit SSL Encryption
+                            <i class="fas fa-lock"></i> Secured by UPM • 256-bit SSL Encryption
                         </div>
-                        <h4>Select Your Bank</h4>
-                        <div class="bank-logos">
-                            <div class="bank-option selected" onclick="selectBank('maybank')">
-                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
-                                <div>Maybank</div>
-                            </div>
-                            <div class="bank-option" onclick="selectBank('cimb')">
-                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
-                                <div>CIMB Bank</div>
-                            </div>
-                            <div class="bank-option" onclick="selectBank('public')">
-                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
-                                <div>Public Bank</div>
-                            </div>
-                            <div class="bank-option" onclick="selectBank('rhb')">
-                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
-                                <div>RHB Bank</div>
-                            </div>
-                            <div class="bank-option" onclick="selectBank('hongleong')">
-                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
-                                <div>Hong Leong</div>
-                            </div>
-                            <div class="bank-option" onclick="selectBank('ambank')">
-                                <i class="fas fa-university" style="font-size: 1.5rem;"></i>
-                                <div>AmBank</div>
-                            </div>
-                        </div>
-                        <p style="color: #666; font-size: 0.9rem; margin: 10px 0;">
-                            <i class="fas fa-info-circle"></i> You will be redirected to your bank's secure login page
-                        </p>
-                    </div>
-                    
-                    <!-- Credit Card Payment Form -->
-                    <div class="payment-detail-form" id="cardForm">
-                        <div class="secure-badge">
-                            <i class="fas fa-lock"></i> Secured by PCI DSS • 256-bit SSL Encryption
-                        </div>
-                        <div class="form-group">
-                            <label>Card Number</label>
-                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNumber(this)">
-                        </div>
-                        <div class="card-row">
-                            <div class="form-group">
-                                <label>Expiry Date</label>
-                                <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
-                            </div>
-                            <div class="form-group">
-                                <label>CVV</label>
-                                <input type="text" class="form-control" id="cardCvv" placeholder="123" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Cardholder Name</label>
-                            <input type="text" class="form-control" id="cardName" placeholder="As per card">
-                        </div>
-                    </div>
-                    
-                    <!-- E-Wallet Payment Form -->
-                    <div class="payment-detail-form" id="ewalletForm">
-                        <div class="secure-badge">
-                            <i class="fas fa-lock"></i> Secured by E-Wallet Partner
-                        </div>
-                        <h4>Select E-Wallet</h4>
-                        <div class="bank-logos">
-                            <div class="bank-option selected" onclick="selectWallet('tng')">
-                                <i class="fas fa-mobile-alt" style="font-size: 1.5rem;"></i>
-                                <div>Touch 'n Go</div>
-                            </div>
-                            <div class="bank-option" onclick="selectWallet('grab')">
-                                <i class="fas fa-mobile-alt" style="font-size: 1.5rem;"></i>
-                                <div>GrabPay</div>
-                            </div>
-                            <div class="bank-option" onclick="selectWallet('shopeepay')">
-                                <i class="fas fa-mobile-alt" style="font-size: 1.5rem;"></i>
-                                <div>ShopeePay</div>
-                            </div>
-                        </div>
-                        <p style="color: #666; font-size: 0.9rem; margin: 15px 0;">
-                            <i class="fas fa-qrcode"></i> You will be prompted to scan a QR code or login to your e-wallet
-                        </p>
+                        <p style="margin: 20px 0;">You will be redirected to UPM secure payment page after clicking Pay Now.</p>
+                        <p style="color:#666;"><i class="fas fa-shield-alt"></i> All major FPX banks and credit cards accepted.</p>
                     </div>
                     
                     <div class="navigation-buttons">
                         <button class="btn btn-secondary" onclick="goToPage(3)">Back</button>
                         <button class="btn btn-success" id="payNowBtn" onclick="initiatePayment()">
-                            <i class="fas fa-lock"></i> PAY NOW • RM <span id="payNowAmount">65.00</span>
+                            <i class="fas fa-lock"></i> PAY NOW • RM <span id="payNowAmount">70.00</span>
                         </button>
                     </div>
                 </div>
                 
-                <!-- Payment Processing Status -->
+                <!-- Payment Processing Status (simplified) -->
                 <div id="paymentProcessing" style="display: none;">
                     <div class="payment-status active" id="processingStatus">
                         <div class="spinner"></div>
                         <h3>Processing Payment</h3>
-                        <p id="processingMessage">Please do not close this window...</p>
+                        <p id="processingMessage">Connecting to UPM gateway...</p>
                         <div style="margin-top: 20px; color: #666;">
-                            <i class="fas fa-clock"></i> Estimated time: 10-30 seconds
+                            <i class="fas fa-clock"></i> Please do not close this window
                         </div>
-                    </div>
-                    
-                    <div class="payment-status" id="otpStatus">
-                        <i class="fas fa-shield-alt" style="font-size: 4rem; color: #4CAF50; margin-bottom: 20px;"></i>
-                        <h3>3D Secure Authentication</h3>
-                        <p>Enter the 6-digit code sent to your registered mobile</p>
-                        <div class="otp-input">
-                            <input type="text" maxlength="1" oninput="moveToNext(this, 0)" onkeydown="handleBackspace(event, 0)" id="otp1">
-                            <input type="text" maxlength="1" oninput="moveToNext(this, 1)" onkeydown="handleBackspace(event, 1)" id="otp2">
-                            <input type="text" maxlength="1" oninput="moveToNext(this, 2)" onkeydown="handleBackspace(event, 2)" id="otp3">
-                            <input type="text" maxlength="1" oninput="moveToNext(this, 3)" onkeydown="handleBackspace(event, 3)" id="otp4">
-                            <input type="text" maxlength="1" oninput="moveToNext(this, 4)" onkeydown="handleBackspace(event, 4)" id="otp5">
-                            <input type="text" maxlength="1" oninput="moveToNext(this, 5)" onkeydown="handleBackspace(event, 5)" id="otp6">
-                        </div>
-                        <div style="margin-top: 20px;">
-                            <button class="btn btn-primary" onclick="verifyOTP()">Verify</button>
-                            <button class="btn btn-secondary" onclick="cancelOTP()">Cancel</button>
-                        </div>
-                        <p style="margin-top: 15px; color: #666;">
-                            <i class="fas fa-clock"></i> Code expires in <span id="otpTimer">180</span>s
-                        </p>
                     </div>
                     
                     <div class="payment-status" id="successStatus">
@@ -1362,11 +1243,11 @@ header::after {
                 </div>
                 
                 <div class="note" style="margin-top: 30px;">
-                    <p><strong>Note:</strong> After successful payment, admission tickets will be sent to your email. Participant details will be used for certificate preparation.</p>
+                    <p><strong>Note:</strong> After successful payment, admission tickets will be sent to your email.</p>
                 </div>
             </div>
             
-            <!-- Page 5: Confirmation -->
+            <!-- Page 5: Confirmation (unchanged except IC removed from display) -->
             <div class="page" id="page5">
                 <div class="success-message">
                     <div class="success-icon">
@@ -1394,7 +1275,7 @@ header::after {
                         </div>
                         <div class="preview-item">
                             <span class="preview-label">Payment Method:</span>
-                            <span class="preview-value" id="confirmationPaymentMethod">FPX</span>
+                            <span class="preview-value" id="confirmationPaymentMethod">UPM Gateway</span>
                         </div>
                         <div class="preview-item">
                             <span class="preview-label">Booking Reference ID:</span>
@@ -1402,7 +1283,7 @@ header::after {
                         </div>
                         
                         <div class="participants-summary" id="confirmationParticipants">
-                            <!-- Participants list for confirmation -->
+                            <!-- Participants list for confirmation (IC removed) -->
                         </div>
                     </div>
                     
@@ -1421,13 +1302,7 @@ header::after {
         
         <footer>
             <p>YSD2026 Universiti Putra Malaysia &copy; 2026. All rights reserved.</p>
-            <p>For inquiries, contact: ysd2026@upm.edu.my | +603-9769 1234</p>
-            <p style="margin-top: 10px; font-size: 0.8rem;">
-                <i class="fas fa-shield-alt"></i> PCI DSS Compliant | 256-bit SSL Encryption
-                <a href="login.html" style="color: #666; text-decoration: none; margin-left: 15px;">
-                    <i class="fas fa-lock"></i> Admin Access
-                </a>
-            </p>
+            <p>For inquiries, contact: ysd@upm.edu.my</p>
         </footer>
     </div>
 
@@ -1454,17 +1329,13 @@ header::after {
         // ============================================
         let currentPage = 1;
         let ticketQuantity = 1;
-        let ticketType = 'single';
-        const singleTicketPrice = 65.00;
-        const groupTicketPrice = 180.00;
-        let selectedPayment = 'fpx';
-        let selectedBank = 'maybank';
-        let selectedWallet = 'tng';
+        // Prices: single RM70, bundle of 4 = RM260
+        const SINGLE_PRICE = 70.00;
+        const BUNDLE_PRICE = 260.00; // for 4 tickets
+        
         let participants = [];
         let currentBookingId = null;
         let paymentInProgress = false;
-        let otpTimer = null;
-        let otpCode = '';
         
         // DOM elements
         const loadingOverlay = document.getElementById('loadingOverlay');
@@ -1472,11 +1343,9 @@ header::after {
         const quantityInput = document.getElementById('quantity');
         const totalAmountElement = document.getElementById('totalAmount');
         const totalSavingsElement = document.getElementById('totalSavings');
-        const promoMessageElement = document.getElementById('promoMessage');
+        const priceBreakdownDiv = document.getElementById('priceBreakdown');
         const previewQuantityElement = document.getElementById('previewQuantity');
         const previewTotalElement = document.getElementById('previewTotal');
-        const bookingTicketTypeElement = document.getElementById('bookingTicketType');
-        const bookingTicketDescriptionElement = document.getElementById('bookingTicketDescription');
         const bookingTicketPriceElement = document.getElementById('bookingTicketPrice');
         const previewTicketTypeElement = document.getElementById('previewTicketType');
         const paymentContactElement = document.getElementById('paymentContact');
@@ -1493,19 +1362,12 @@ header::after {
         const confirmationParticipantsElement = document.getElementById('confirmationParticipants');
         const payNowAmount = document.getElementById('payNowAmount');
         
-        // Payment form elements
+        // Payment elements
         const paymentMainContent = document.getElementById('paymentMainContent');
         const paymentProcessing = document.getElementById('paymentProcessing');
         const processingStatus = document.getElementById('processingStatus');
-        const otpStatus = document.getElementById('otpStatus');
         const successStatus = document.getElementById('successStatus');
         const failedStatus = document.getElementById('failedStatus');
-        const fpxForm = document.getElementById('fpxForm');
-        const cardForm = document.getElementById('cardForm');
-        const ewalletForm = document.getElementById('ewalletForm');
-        const fpxMethod = document.getElementById('fpxMethod');
-        const cardMethod = document.getElementById('cardMethod');
-        const ewalletMethod = document.getElementById('ewalletMethod');
         
         // ============================================
         // HELPER FUNCTIONS
@@ -1525,7 +1387,7 @@ header::after {
         document.addEventListener('DOMContentLoaded', function() {
             updateTotalAmount();
             updateStepIndicators();
-            addParticipantForm();
+            // no forms yet, will be added on bookNow
         });
         
         // ============================================
@@ -1558,36 +1420,18 @@ header::after {
         }
         
         // ============================================
-        // TICKET SELECTION
+        // TICKET SELECTION (simplified)
         // ============================================
-        function selectTicket(type) {
-            ticketType = type;
+        function selectTicket() {
+            // No package selection, just go to page2
+            ticketQuantity = 1;
+            quantityInput.value = 1;
+            quantityInput.min = 1;
+            quantityInput.max = 20;
+            quantityInput.readOnly = false;
             
-            if (type === 'group') {
-                ticketQuantity = 3;
-                quantityInput.value = 3;
-                quantityInput.min = 3;
-                quantityInput.max = 3;
-                quantityInput.readOnly = true;
-                
-                bookingTicketTypeElement.textContent = 'Group Package (3 Tickets)';
-                bookingTicketDescriptionElement.textContent = 'Special promotion for group of 3 participants. Save RM 15 when booking 3 tickets together.';
-                bookingTicketPriceElement.textContent = 'RM 180.00';
-                bookingTicketPriceElement.classList.add('ticket-price-discounted');
-                previewTicketTypeElement.textContent = 'Group Package (3 Tickets)';
-            } else {
-                ticketQuantity = 1;
-                quantityInput.value = 1;
-                quantityInput.min = 1;
-                quantityInput.max = 20;
-                quantityInput.readOnly = false;
-                
-                bookingTicketTypeElement.textContent = 'Kids (5 to 12 years of age)';
-                bookingTicketDescriptionElement.textContent = 'Admission ticket for children between 5 to 12 years old.';
-                bookingTicketPriceElement.textContent = 'RM 65.00';
-                bookingTicketPriceElement.classList.remove('ticket-price-discounted');
-                previewTicketTypeElement.textContent = 'Kids (5 to 12 years of age)';
-            }
+            bookingTicketPriceElement.textContent = 'RM 70.00 each';
+            previewTicketTypeElement.textContent = 'Kids (5-12 years)';
             
             updateTotalAmount();
             goToPage(2);
@@ -1597,14 +1441,12 @@ header::after {
         // QUANTITY MANAGEMENT
         // ============================================
         function increaseQuantity() {
-            if (ticketType === 'group') return;
             ticketQuantity = parseInt(quantityInput.value) + 1;
             quantityInput.value = ticketQuantity;
             updateTotalAmount();
         }
         
         function decreaseQuantity() {
-            if (ticketType === 'group') return;
             if (ticketQuantity > 1) {
                 ticketQuantity = parseInt(quantityInput.value) - 1;
                 quantityInput.value = ticketQuantity;
@@ -1613,11 +1455,6 @@ header::after {
         }
         
         function validateQuantity() {
-            if (ticketType === 'group') {
-                quantityInput.value = 3;
-                return;
-            }
-            
             let value = parseInt(quantityInput.value);
             if (isNaN(value) || value < 1) value = 1;
             if (value > 20) value = 20;
@@ -1626,27 +1463,17 @@ header::after {
             updateTotalAmount();
         }
         
+        function calculateTotal(qty) {
+            const bundles = Math.floor(qty / 4);
+            const singles = qty % 4;
+            const total = bundles * BUNDLE_PRICE + singles * SINGLE_PRICE;
+            const saving = bundles * (4 * SINGLE_PRICE - BUNDLE_PRICE); // saved RM20 per bundle
+            return { total, saving, bundles, singles };
+        }
+        
         function updateTotalAmount() {
             ticketQuantity = parseInt(quantityInput.value);
-            let total = 0;
-            let savings = 0;
-            
-            if (ticketType === 'group') {
-                total = groupTicketPrice;
-                savings = (singleTicketPrice * 3) - groupTicketPrice;
-                totalSavingsElement.textContent = `You save: RM ${savings.toFixed(2)}`;
-                totalSavingsElement.style.display = 'block';
-                promoMessageElement.style.display = 'block';
-            } else {
-                total = ticketQuantity * singleTicketPrice;
-                totalSavingsElement.style.display = 'none';
-                promoMessageElement.style.display = 'none';
-                
-                if (ticketQuantity >= 3) {
-                    promoMessageElement.innerHTML = `<p style="color: #2e7d32; margin: 0;"><i class="fas fa-info-circle"></i> <strong>Tip:</strong> You can save RM ${(singleTicketPrice * 3 - groupTicketPrice).toFixed(2)} by selecting the Group Package (3 tickets for RM 180.00)</p>`;
-                    promoMessageElement.style.display = 'block';
-                }
-            }
+            const { total, saving, bundles, singles } = calculateTotal(ticketQuantity);
             
             totalAmountElement.textContent = `RM ${total.toFixed(2)}`;
             previewQuantityElement.textContent = ticketQuantity;
@@ -1654,6 +1481,26 @@ header::after {
             paymentAmountElement.textContent = `RM ${total.toFixed(2)}`;
             payNowAmount.textContent = total.toFixed(2);
             confirmationQuantityElement.textContent = ticketQuantity;
+            
+            // Price breakdown
+            let breakdownHtml = `<p><strong>Price breakdown:</strong></p>`;
+            if (bundles > 0) {
+                breakdownHtml += `<p>${bundles} × 4-ticket bundle @ RM260 = RM ${(bundles * BUNDLE_PRICE).toFixed(2)}</p>`;
+            }
+            if (singles > 0) {
+                breakdownHtml += `<p>${singles} × single ticket @ RM70 = RM ${(singles * SINGLE_PRICE).toFixed(2)}</p>`;
+            }
+            breakdownHtml += `<p><strong>Total: RM ${total.toFixed(2)}</strong>`;
+            if (saving > 0) {
+                breakdownHtml += ` <span style="color:#ff5722;">(You save RM ${saving.toFixed(2)})</span>`;
+                totalSavingsElement.textContent = `You save: RM ${saving.toFixed(2)}`;
+                totalSavingsElement.style.display = 'block';
+            } else {
+                totalSavingsElement.style.display = 'none';
+            }
+            breakdownHtml += `</p>`;
+            priceBreakdownDiv.innerHTML = breakdownHtml;
+            priceBreakdownDiv.style.display = 'block';
         }
         
         function bookNow() {
@@ -1662,7 +1509,7 @@ header::after {
         }
         
         // ============================================
-        // PARTICIPANT MANAGEMENT
+        // PARTICIPANT MANAGEMENT (IC field removed)
         // ============================================
         function updateParticipantForms() {
             const container = document.getElementById('participantsContainer');
@@ -1675,7 +1522,7 @@ header::after {
         
         function addParticipantForm(index) {
             const container = document.getElementById('participantsContainer');
-            const participantNumber = container.children.length + 1;
+            const participantNumber = index;
             
             const participantForm = document.createElement('div');
             participantForm.className = 'participant-form';
@@ -1686,10 +1533,6 @@ header::after {
                     <div class="participant-field">
                         <label for="participantName${participantNumber}">Full Name *</label>
                         <input type="text" id="participantName${participantNumber}" class="form-control" placeholder="Enter participant's full name">
-                    </div>
-                    <div class="participant-field">
-                        <label for="participantIC${participantNumber}">IC/Passport Number *</label>
-                        <input type="text" id="participantIC${participantNumber}" class="form-control" placeholder="Enter IC or passport number">
                     </div>
                     <div class="participant-field">
                         <label for="participantAge${participantNumber}">Age *</label>
@@ -1725,10 +1568,9 @@ header::after {
             
             for (let i = 1; i <= participantCount; i++) {
                 const name = document.getElementById(`participantName${i}`)?.value;
-                const ic = document.getElementById(`participantIC${i}`)?.value;
                 const age = document.getElementById(`participantAge${i}`)?.value;
                 
-                if (!name || !ic || !age) {
+                if (!name || !age) {
                     alert(`Please fill in all details for Participant ${i}`);
                     return;
                 }
@@ -1741,12 +1583,11 @@ header::after {
                 participants.push({
                     number: i,
                     name: name,
-                    ic: ic,
                     age: age
                 });
             }
             
-            const total = ticketType === 'group' ? groupTicketPrice : ticketQuantity * singleTicketPrice;
+            const { total } = calculateTotal(ticketQuantity);
             const bookingId = 'YSD-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
             
             showLoading('Saving booking details...');
@@ -1757,7 +1598,6 @@ header::after {
                     contactPerson: contactPerson,
                     email: contactEmail,
                     phone: contactPhone,
-                    ticketType: ticketType,
                     quantity: ticketQuantity,
                     participants: participants,
                     amount: total,
@@ -1800,106 +1640,17 @@ header::after {
                 participantDiv.className = 'participant-item';
                 participantDiv.innerHTML = `
                     <span>${participant.number}. ${participant.name}</span>
-                    <span>IC: ${participant.ic}</span>
+                    <span>Age: ${participant.age}</span>
                 `;
                 participantsSummaryElement.appendChild(participantDiv);
             });
         }
         
         // ============================================
-        // PAYMENT METHODS
-        // ============================================
-        function selectPayment(method) {
-            selectedPayment = method;
-            
-            // Update UI
-            document.querySelectorAll('.payment-method').forEach(el => {
-                el.classList.remove('selected');
-            });
-            
-            document.getElementById(method + 'Method').classList.add('selected');
-            
-            // Show/hide payment forms
-            fpxForm.classList.remove('active');
-            cardForm.classList.remove('active');
-            ewalletForm.classList.remove('active');
-            
-            document.getElementById(method + 'Form').classList.add('active');
-        }
-        
-        function selectBank(bank) {
-            selectedBank = bank;
-            document.querySelectorAll('#fpxForm .bank-option').forEach(el => {
-                el.classList.remove('selected');
-            });
-            event.currentTarget.classList.add('selected');
-        }
-        
-        function selectWallet(wallet) {
-            selectedWallet = wallet;
-            document.querySelectorAll('#ewalletForm .bank-option').forEach(el => {
-                el.classList.remove('selected');
-            });
-            event.currentTarget.classList.add('selected');
-        }
-        
-        function formatCardNumber(input) {
-            let value = input.value.replace(/\D/g, '');
-            let formattedValue = '';
-            
-            for (let i = 0; i < value.length; i++) {
-                if (i > 0 && i % 4 === 0) {
-                    formattedValue += ' ';
-                }
-                formattedValue += value[i];
-            }
-            
-            input.value = formattedValue;
-        }
-        
-        function formatExpiry(input) {
-            let value = input.value.replace(/\D/g, '');
-            
-            if (value.length >= 2) {
-                input.value = value.substring(0, 2) + '/' + value.substring(2, 4);
-            } else {
-                input.value = value;
-            }
-        }
-        
-        // ============================================
-        // PAYMENT PROCESSING
+        // PAYMENT PROCESSING (simplified - only UPM gateway)
         // ============================================
         function initiatePayment() {
             if (paymentInProgress) return;
-            
-            // Validate payment details based on selected method
-            if (selectedPayment === 'card') {
-                const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
-                const cardExpiry = document.getElementById('cardExpiry').value;
-                const cardCvv = document.getElementById('cardCvv').value;
-                const cardName = document.getElementById('cardName').value;
-                
-                if (cardNumber.length < 16) {
-                    alert('Please enter a valid 16-digit card number');
-                    return;
-                }
-                
-                if (!cardExpiry.match(/^\d{2}\/\d{2}$/)) {
-                    alert('Please enter a valid expiry date (MM/YY)');
-                    return;
-                }
-                
-                if (cardCvv.length < 3) {
-                    alert('Please enter a valid CVV');
-                    return;
-                }
-                
-                if (!cardName) {
-                    alert('Please enter the cardholder name');
-                    return;
-                }
-            }
             
             paymentInProgress = true;
             
@@ -1907,16 +1658,14 @@ header::after {
             paymentMainContent.style.display = 'none';
             paymentProcessing.style.display = 'block';
             
-            // Show processing status
             processingStatus.style.display = 'block';
-            otpStatus.style.display = 'none';
             successStatus.style.display = 'none';
             failedStatus.style.display = 'none';
             
             // Simulate payment processing
             let progress = 0;
             const processingMessages = [
-                'Connecting to payment gateway...',
+                'Connecting to UPM gateway...',
                 'Verifying payment details...',
                 'Processing transaction...',
                 'Almost there...'
@@ -1927,102 +1676,22 @@ header::after {
                     document.getElementById('processingMessage').textContent = processingMessages[progress];
                     progress++;
                 }
-            }, 2000);
+            }, 1500);
             
-            // After 8 seconds, show OTP or success based on payment method
+            // Simulate success after 6 seconds (high success rate for demo)
             setTimeout(() => {
                 clearInterval(processingInterval);
-                
-                if (selectedPayment === 'fpx' || selectedPayment === 'card') {
-                    // Show OTP verification for FPX and Card
-                    processingStatus.style.display = 'none';
-                    otpStatus.style.display = 'block';
-                    startOTPTimer();
-                } else {
-                    // E-wallet shows success directly (simulating QR scan)
+                // 95% success simulation
+                if (Math.random() < 0.95) {
                     processingStatus.style.display = 'none';
                     successStatus.style.display = 'block';
-                }
-            }, 8000);
-        }
-        
-        function startOTPTimer() {
-            let timeLeft = 180;
-            const timerElement = document.getElementById('otpTimer');
-            
-            otpTimer = setInterval(() => {
-                timeLeft--;
-                timerElement.textContent = timeLeft;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(otpTimer);
-                    handleOTPExpired();
-                }
-            }, 1000);
-        }
-        
-        function moveToNext(input, index) {
-            if (input.value.length === 1) {
-                const next = document.getElementById(`otp${index + 2}`);
-                if (next) {
-                    next.focus();
-                }
-            }
-            
-            // Build OTP code
-            let code = '';
-            for (let i = 1; i <= 6; i++) {
-                code += document.getElementById(`otp${i}`).value || '';
-            }
-            otpCode = code;
-        }
-        
-        function handleBackspace(event, index) {
-            if (event.key === 'Backspace' && !event.target.value) {
-                const prev = document.getElementById(`otp${index}`);
-                if (prev) {
-                    prev.focus();
-                }
-            }
-        }
-        
-        function verifyOTP() {
-            if (otpCode.length < 6) {
-                alert('Please enter the complete 6-digit OTP');
-                return;
-            }
-            
-            clearInterval(otpTimer);
-            
-            // Simulate OTP verification
-            showLoading('Verifying OTP...');
-            
-            setTimeout(() => {
-                hideLoading();
-                
-                // 90% success rate simulation
-                if (Math.random() < 0.9) {
-                    otpStatus.style.display = 'none';
-                    successStatus.style.display = 'block';
                 } else {
-                    otpStatus.style.display = 'none';
-                    document.getElementById('failedMessage').textContent = 'Invalid OTP code. Please try again.';
+                    processingStatus.style.display = 'none';
+                    document.getElementById('failedMessage').textContent = 'UPM gateway temporarily unavailable. Please try again.';
                     failedStatus.style.display = 'block';
                     paymentInProgress = false;
                 }
-            }, 2000);
-        }
-        
-        function cancelOTP() {
-            clearInterval(otpTimer);
-            resetPaymentUI();
-        }
-        
-        function handleOTPExpired() {
-            otpStatus.style.display = 'none';
-            document.getElementById('failedMessage').textContent = 'OTP has expired. Please try again.';
-            failedStatus.style.display = 'block';
-            paymentInProgress = false;
+            }, 6000);
         }
         
         function retryPayment() {
@@ -2033,12 +1702,6 @@ header::after {
             paymentMainContent.style.display = 'block';
             paymentProcessing.style.display = 'none';
             paymentInProgress = false;
-            
-            // Clear OTP inputs
-            for (let i = 1; i <= 6; i++) {
-                const otpInput = document.getElementById(`otp${i}`);
-                if (otpInput) otpInput.value = '';
-            }
         }
         
         // ============================================
@@ -2057,12 +1720,10 @@ header::after {
                 // Update booking status to paid
                 await db.collection('bookings').doc(currentBookingId).update({
                     status: 'paid',
-                    paymentMethod: selectedPayment,
+                    paymentMethod: 'UPM Gateway',
                     paymentDetails: {
-                        method: selectedPayment,
-                        ...(selectedPayment === 'fpx' && { bank: selectedBank }),
-                        ...(selectedPayment === 'ewallet' && { wallet: selectedWallet }),
-                        transactionId: 'TXN' + Date.now(),
+                        method: 'UPM Gateway',
+                        transactionId: 'UPM' + Date.now(),
                         timestamp: firebase.firestore.FieldValue.serverTimestamp()
                     },
                     paymentDate: firebase.firestore.FieldValue.serverTimestamp()
@@ -2074,18 +1735,12 @@ header::after {
                 // Update confirmation page
                 confirmationContactElement.textContent = contactPerson;
                 
-                // Set current date
                 const now = new Date();
                 const options = { year: 'numeric', month: 'long', day: 'numeric' };
                 confirmationDateElement.textContent = now.toLocaleDateString('en-US', options);
                 
-                // Set payment method text
-                let paymentMethodText = 'FPX - ' + selectedBank.toUpperCase();
-                if (selectedPayment === 'card') paymentMethodText = 'Credit/Debit Card';
-                if (selectedPayment === 'ewallet') paymentMethodText = selectedWallet.toUpperCase();
-                confirmationPaymentMethodElement.textContent = paymentMethodText;
+                confirmationPaymentMethodElement.textContent = 'UPM Gateway';
                 
-                // Set booking reference
                 const bookingRef = paymentReferenceElement.textContent;
                 confirmationBookingRefElement.textContent = bookingRef;
                 confirmationRefElement.textContent = bookingRef;
@@ -2095,11 +1750,9 @@ header::after {
                 
                 hideLoading();
                 
-                // Reset payment UI and go to confirmation
                 resetPaymentUI();
                 goToPage(5);
                 
-                // Simulate email sending
                 console.log('📧 Ticket email sent to:', document.getElementById('contactEmail').value);
                 
             } catch (error) {
@@ -2126,14 +1779,14 @@ header::after {
                 participantDiv.className = 'participant-item';
                 participantDiv.innerHTML = `
                     <span>${participant.number}. ${participant.name}</span>
-                    <span>IC: ${participant.ic}, Age: ${participant.age}</span>
+                    <span>Age: ${participant.age}</span>
                 `;
                 confirmationParticipantsElement.appendChild(participantDiv);
             });
         }
         
         // ============================================
-        // PRINT TICKET
+        // PRINT TICKET (updated to remove IC)
         // ============================================
         function printTicket() {
             let participantsHTML = '';
@@ -2142,7 +1795,6 @@ header::after {
                     <tr>
                         <td>${p.number}</td>
                         <td>${p.name}</td>
-                        <td>${p.ic}</td>
                         <td>${p.age}</td>
                     </tr>
                 `;
@@ -2213,7 +1865,6 @@ header::after {
                                 <tr>
                                     <th>No.</th>
                                     <th>Name</th>
-                                    <th>IC/Passport Number</th>
                                     <th>Age</th>
                                 </tr>
                             </thead>
@@ -2224,7 +1875,7 @@ header::after {
                         
                         <div class="footer">
                             <p><i class="fas fa-qrcode"></i> Present this ticket (print or digital) at the event entrance</p>
-                            <p>For inquiries: ysd2026@upm.edu.my | +603-9769 1234</p>
+                            <p>For inquiries: ysd@upm.edu.my</p>
                         </div>
                     </div>
                     
@@ -2241,7 +1892,6 @@ header::after {
             printWindow.document.close();
         }
         
-        // Handle quantity input change
         quantityInput.addEventListener('change', validateQuantity);
     </script>
 </body>
