@@ -15,12 +15,12 @@
         
         // Base configuration (same for all environments)
         const baseConfig = {
-            apiKey: "AIzaSyABaOMohXrju_OelcUQLAxlIBy809ob3uI",
-            authDomain: "ysd2026-upm-tickets.firebaseapp.com",
-            projectId: "ysd2026-upm-tickets",
-            storageBucket: "ysd2026-upm-tickets.firebasestorage.app",
-            messagingSenderId: "350674755825",
-            appId: "1:350674755825:web:143f8ee11a2fb568080950"
+            apiKey: "AIzaSyB33grKghPfxANVvKmg8GaXX0IjtLBX4-w",
+            authDomain: "ysd2026-upm-tickets-37b0d.firebaseapp.com",
+            projectId: "ysd2026-upm-tickets-37b0d",
+            storageBucket: "ysd2026-upm-tickets-37b0d.firebasestorage.app",
+            messagingSenderId: "1063195509884",
+            appId: "1:1063195509884:web:1d9dc8c6723c2382acb5f9"
         };
         
         // Check if we're on your production domain
@@ -94,3 +94,4 @@ function showUserMessage(message) {
         errorContainer.style.display = 'block';
     }
 }
+
