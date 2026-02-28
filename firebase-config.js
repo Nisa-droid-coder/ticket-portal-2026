@@ -15,7 +15,7 @@
         
         // Base configuration (same for all environments)
         const baseConfig = {
-            apiKey: "AIzaSyB33grKghPfxANVvKmg8GaXX0IjtLBX4-w",
+            AIzaSyABaOMohXrju_OelcUQLAxlIBy809ob3uI",
             authDomain: "ysd2026-upm-tickets-37b0d.firebaseapp.com",
             projectId: "ysd2026-upm-tickets-37b0d",
             storageBucket: "ysd2026-upm-tickets-37b0d.firebasestorage.app",
@@ -94,6 +94,7 @@ function showUserMessage(message) {
         errorContainer.style.display = 'block';
     }
 }
+
 
 
 
