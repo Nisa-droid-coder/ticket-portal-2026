@@ -15,16 +15,16 @@
         
         // Base configuration (same for all environments)
         const baseConfig = {
-            apiKey: "AIzaSyABaOMohXrju_OelcUQLAxlIBy809ob3uI",
-            authDomain: "ysd2026-upm-tickets-37b0d.firebaseapp.com",
-            projectId: "ysd2026-upm-tickets-37b0d",
-            storageBucket: "ysd2026-upm-tickets-37b0d.firebasestorage.app",
-            messagingSenderId: "1063195509884",
-            appId: "1:1063195509884:web:1d9dc8c6723c2382acb5f9"
+            apiKey: "AIzaSyCzGLXIWHYX7LMGO821aJP50XkyZ4wqkfg",
+            authDomain: "ysd2026-upm.firebaseapp.com",
+            projectId: "ysd2026-upm",
+            storageBucket: "ysd2026-upm.firebasestorage.app",
+            messagingSenderId: "1027499510395",
+            appId: "1:1027499510395:web:37a83006a7e81d9bff70de"
         };
         
         // Check if we're on your production domain
-        if (hostname === 'yourusername.github.io' || hostname === 'your-custom-domain.com') {
+        if (hostname === 'Nisa-droid-coder.github.io' || hostname === 'your-custom-domain.com') {
             console.log('Production environment detected');
             return baseConfig;
         }
@@ -94,6 +94,7 @@ function showUserMessage(message) {
         errorContainer.style.display = 'block';
     }
 }
+
 
 
 
