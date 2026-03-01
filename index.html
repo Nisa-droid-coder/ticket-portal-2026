@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YSD2026 UPM - Ticket Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <style>
+        /* Your existing styles - kept exactly as they are */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+    position: relative;
+    color: black;
+    padding: 60px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+}
+
+/* Background image */
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('logo.jpeg') no-repeat center center;
+    background-size: cover;
+    opacity: 1;
+    z-index: 1;
+}
+
+/* Gradient overlay (keeps the original style) */
+header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+}
+
+.header-content {
+    position: relative;
+    z-index: 3;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+        
+        .logo-section {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px 35px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            min-width: 350px;
+        }
+        
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            border: 3px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-text h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo-text .event-title {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            opacity: 0.95;
+            font-weight: 600;
+        }
+        
+        .logo-text .event-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .event-info {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px 35px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            min-width: 350px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .info-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        
+        .info-content {
+            flex: 1;
+        }
+        
+        .info-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 2px;
+        }
+        
+        .info-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .info-value small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            opacity: 0.9;
+            display: block;
+        }
+        
+        .ticket-steps {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0 40px;
+            position: relative;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            width: 200px;
+        }
+        
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ddd;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            border: 4px solid white;
+            box-shadow: 0 0 0 3px #ddd;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-circle {
+            background-color: #4CAF50;
+            color: white;
+            box-shadow: 0 0 0 3px #4CAF50;
+        }
+        
+        .step.completed .step-circle {
+            background-color: #2E7D32;
+            color: white;
+            box-shadow: 0 0 0 3px #2E7D32;
+        }
+        
+        .step.completed .step-circle::after {
+            content: '✓';
+        }
+        
+        .step-line {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            width: 100%;
+            height: 4px;
+            background-color: #ddd;
+            z-index: 0;
+        }
+        
+        .step:first-child .step-line {
+            width: 50%;
+            left: 50%;
+        }
+        
+        .step:last-child .step-line {
+            width: 50%;
+            left: 0;
+        }
+        
+        .step-text {
+            font-weight: 500;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .main-content {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+            min-height: 400px;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .ticket-option {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .ticket-option:hover {
+            border-color: #4CAF50;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.1);
+        }
+        
+        .ticket-option h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .ticket-option p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .ticket-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        
+        .ticket-price-discounted {
+            color: #ff5722;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+        
+        .promo-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #ff5722;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .note {
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3d8b40;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 0 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .total-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .total-label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .total-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 5px;
+        }
+        
+        .total-savings {
+            color: #ff5722;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+        
+        .participant-form {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px dashed #ccc;
+        }
+        
+        .participant-form h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .participant-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .participant-row:last-child {
+            border-bottom: none;
+        }
+        
+        .participant-number {
+            font-weight: bold;
+            color: #4CAF50;
+            margin-right: 10px;
+            min-width: 40px;
+        }
+        
+        .participant-field {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .add-participant-btn {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            border: 1px dashed #1976d2;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .add-participant-btn:hover {
+            background-color: #bbdefb;
+        }
+        
+        .ticket-preview {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px dashed #ccc;
+        }
+        
+        .ticket-preview h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .preview-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .preview-label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .preview-value {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .participants-summary {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .payment-method {
+            flex: 1;
+            min-width: 200px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .payment-method:hover {
+            border-color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        .payment-method.selected {
+            border-color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.1);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+        }
+        
+        .payment-method i {
+            font-size: 2.5rem;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        
+        .payment-method .popular-badge {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background-color: #ff5722;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .payment-detail-form {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            display: none;
+        }
+        
+        .payment-detail-form.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .bank-logos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .bank-option {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: white;
+        }
+        
+        .bank-option:hover {
+            border-color: #4CAF50;
+            background-color: #f0f9f0;
+        }
+        
+        .bank-option.selected {
+            border-color: #4CAF50;
+            background-color: #e8f5e8;
+            font-weight: 600;
+        }
+        
+        .bank-option img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 5px;
+        }
+        
+        .card-input {
+            margin-bottom: 15px;
+        }
+        
+        .card-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .card-row .form-group {
+            flex: 1;
+        }
+        
+        .payment-status {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+        
+        .payment-status.active {
+            display: block;
+        }
+        
+        .payment-status .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        .payment-status.success i {
+            font-size: 5rem;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .payment-status.failed i {
+            font-size: 5rem;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        
+        .otp-input {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .otp-input input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .otp-input input:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+        
+        .secure-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            background-color: #e8f5e8;
+            color: #2e7d32;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+        
+        .success-message {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .success-message h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .booking-id {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+            letter-spacing: 2px;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f0f9f0;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .participants-list {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .participant-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: 30px;
+        }
+        
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .loading-text {
+            color: white;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 992px) {
+            .logo-text h1 {
+                font-size: 2rem;
+            }
+            
+            .logo-text .event-title {
+                font-size: 1.3rem;
+            }
+            
+            .event-info {
+                min-width: 300px;
+                padding: 20px;
+            }
+            
+            .info-value {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 40px 0;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-section {
+                flex-direction: column;
+                text-align: center;
+                min-width: auto;
+            }
+            
+            .event-info {
+                width: 100%;
+                min-width: auto;
+            }
+            
+            .info-item {
+                justify-content: center;
+            }
+            
+            .step {
+                width: 120px;
+            }
+            
+            .step-text {
+                font-size: 0.8rem;
+            }
+            
+            .ticket-option {
+                padding: 20px;
+            }
+            
+            .payment-method {
+                min-width: 100%;
+            }
+            
+            .participant-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .bank-logos {
+                flex-direction: column;
+            }
+            
+            .card-row {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-text h1 {
+                font-size: 1.6rem;
+            }
+            
+            .logo-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            
+            .step {
+                width: 90px;
+            }
+            
+            .step-circle {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .step-line {
+                top: 20px;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .navigation-buttons > div {
+                display: flex;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Processing...</div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-icon">
+    <img src="upm.png" alt="UPM Logo" style="width: 100%; height: 100%; object-fit: contain;">
+</div>
+                <div class="logo-text">
+                    <h1>YSD2026</h1>
+                    <div class="event-title">Youth Sports Day</div>
+                    <div class="event-subtitle">
+                        <i class="fas fa-flask"></i> Little Hands, Big STEAM!
+                    </div>
+                </div>
+            </div>
+            
+            <div class="event-info">
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-label">Event Date</div>
+                        <div class="info-value">13th June 2026</div>
+                        <small>9:00 AM - 4:30 PM</small>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-label">Venue</div>
+                        <div class="info-value">Universiti Putra Malaysia</div>
+                        <small>Serdang, Selangor</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="ticket-steps">
+            <div class="step completed" id="step1">
+                <div class="step-circle">1</div>
+                <div class="step-text">Select Ticket</div>
+                <div class="step-line"></div>
+            </div>
+            <div class="step active" id="step2">
+                <div class="step-circle">2</div>
+                <div class="step-text">Booking Options</div>
+                <div class="step-line"></div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-circle">3</div>
+                <div class="step-text">Participant Details</div>
+                <div class="step-line"></div>
+            </div>
+            <div class="step" id="step4">
+                <div class="step-circle">4</div>
+                <div class="step-text">Payment</div>
+                <div class="step-line"></div>
+            </div>
+            <div class="step" id="step5">
+                <div class="step-circle">5</div>
+                <div class="step-text">Confirmation</div>
+                <div class="step-line"></div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Page 1: Select Ticket (Now only one option, but using same layout) -->
+            <div class="page active" id="page1">
+                <h2>Select Admission Ticket</h2>
+                <p class="note"><i class="fas fa-info-circle"></i> Special bundle: 4 tickets for RM260 (save RM20). Individual ticket RM70.</p>
+                
+                <div class="ticket-option">
+                    <h3>Kids (5 to 12 years of age)</h3>
+                    <p>Admission ticket for children between 5 to 12 years old. Includes access to all YSD2026 activities at Universiti Putra Malaysia.</p>
+                    <div class="ticket-price">RM 70.00 per person</div>
+                    <p style="margin: 10px 0; background:#f0f7f0; padding:10px; border-radius:5px;"><i class="fas fa-tag"></i> <strong>Bundle offer:</strong> 4 tickets for RM260 (effectively RM65 each)</p>
+                    <button class="btn btn-primary" onclick="selectTicket()">SELECT TICKETS</button>
+                </div>
+                
+                <div class="note">
+                    <p><strong>Pricing explained:</strong> Each ticket is RM70. For every 4 tickets, the total for those 4 is RM260 (RM65 each).</p>
+                </div>
+            </div>
+            
+            <!-- Page 2: Booking Options (Quantity with dynamic bundle pricing) -->
+            <div class="page" id="page2">
+                <h2>Booking Options</h2>
+                
+                <div class="ticket-option">
+                    <h3>Kids (5 to 12 years of age)</h3>
+                    <p>Individual ticket RM70 | Bundle: 4 tickets for RM260</p>
+                    <div class="ticket-price" id="bookingTicketPrice">RM 70.00 each</div>
+                    
+                    <div class="quantity-selector">
+                        <label>Select Quantity:</label>
+                        <div style="display: flex; align-items: center; margin-top: 10px;">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="20" onchange="validateQuantity()">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                        <p style="margin-top: 10px; color: #666; font-size: 0.9rem;"><i class="fas fa-info-circle"></i> You can book up to 20 tickets.</p>
+                        
+                        <div id="priceBreakdown" style="margin-top: 15px; padding: 15px; background-color: #e8f5e8; border-radius: 5px;">
+                            <!-- Dynamic price breakdown will appear here -->
+                        </div>
+                    </div>
+                    
+                    <div class="total-section">
+                        <div class="total-label">Total Amount</div>
+                        <div class="total-amount" id="totalAmount">RM 70.00</div>
+                        <div class="total-savings" id="totalSavings" style="display: none;">You save: RM 0.00</div>
+                    </div>
+                    
+                    <div class="navigation-buttons">
+                        <button class="btn btn-secondary" onclick="goToPage(1)">Back</button>
+                        <div>
+                            <button class="btn btn-primary" onclick="bookNow()">BOOK NOW</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Page 3: Participant Details (IC field removed) -->
+            <div class="page" id="page3">
+                <h2>Participant Details</h2>
+                <p class="note"><i class="fas fa-ticket-alt"></i> Please provide names and ages for all participants. This information will be used for certificate preparation.</p>
+                
+                <div class="form-group">
+                    <label for="contactPerson">Contact Person (Mother/Father/Guardian) *</label>
+                    <input type="text" id="contactPerson" class="form-control" placeholder="Enter full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactEmail">Email Address *</label>
+                    <input type="email" id="contactEmail" class="form-control" placeholder="Enter email address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactPhone">Phone Number *</label>
+                    <input type="tel" id="contactPhone" class="form-control" placeholder="Enter phone number">
+                </div>
+                
+                <h3 style="margin: 30px 0 20px;">Participants Information <span style="font-size: 1rem; color: #666;">(for certificate preparation)</span></h3>
+                
+                <div id="participantsContainer">
+                    <!-- Participant forms (name + age only) will be added here -->
+                </div>
+                
+                <div class="ticket-preview">
+                    <h4>Booking Summary</h4>
+                    <div class="preview-item">
+                        <span class="preview-label">Ticket Type:</span>
+                        <span class="preview-value" id="previewTicketType">Kids (5-12 years)</span>
+                    </div>
+                    <div class="preview-item">
+                        <span class="preview-label">Event Date:</span>
+                        <span class="preview-value">13th June 2026</span>
+                    </div>
+                    <div class="preview-item">
+                        <span class="preview-label">Number of Tickets:</span>
+                        <span class="preview-value" id="previewQuantity">1</span>
+                    </div>
+                    <div class="preview-item">
+                        <span class="preview-label">Total Amount:</span>
+                        <span class="preview-value" id="previewTotal">RM 70.00</span>
+                    </div>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button class="btn btn-secondary" onclick="goToPage(2)">Back</button>
+                    <button class="btn btn-primary" onclick="validateParticipantDetails()">PROCEED TO PAYMENT</button>
+                </div>
+                
+                <p style="margin-top: 20px; color: #666; font-size: 0.9rem; text-align: center;">
+                    <i class="fas fa-lock"></i> Your information is secure and encrypted
+                </p>
+            </div>
+            
+            <!-- Page 4: Payment (only UPM gateway) -->
+            <div class="page" id="page4">
+                <div id="paymentMainContent">
+                    <h2>Payment</h2>
+                    <p>Complete your payment using UPM secure payment gateway.</p>
+                    
+                    <div class="ticket-preview">
+                        <h4>Payment Summary</h4>
+                        <div class="preview-item">
+                            <span class="preview-label">Contact Person:</span>
+                            <span class="preview-value" id="paymentContact">-</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Amount to Pay:</span>
+                            <span class="preview-value" id="paymentAmount">RM 70.00</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Booking Reference:</span>
+                            <span class="preview-value" id="paymentReference">YSD-2026-001</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Number of Participants:</span>
+                            <span class="preview-value" id="paymentParticipants">1</span>
+                        </div>
+                        
+                        <div class="participants-summary" id="participantsSummary">
+                            <!-- Participants list will be added here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Only one payment method: UPM Payment Gateway -->
+                    <div class="payment-methods" style="justify-content: center;">
+                        <div class="payment-method selected" id="upmMethod" style="max-width: 300px; margin:0 auto;">
+                            <i class="fas fa-university"></i>
+                            <h4>UPM Payment Gateway</h4>
+                            <p>Secure online payment (FPX/Card)</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Simple form to simulate UPM gateway (no card details required) -->
+                    <div class="payment-detail-form active" id="upmForm" style="text-align: center;">
+                        <div class="secure-badge">
+                            <i class="fas fa-lock"></i> Secured by UPM • 256-bit SSL Encryption
+                        </div>
+                        <p style="margin: 20px 0;">You will be redirected to UPM secure payment page after clicking Pay Now.</p>
+                        <p style="color:#666;"><i class="fas fa-shield-alt"></i> All major FPX banks and credit cards accepted.</p>
+                    </div>
+                    
+                    <div class="navigation-buttons">
+                        <button class="btn btn-secondary" onclick="goToPage(3)">Back</button>
+                        <button class="btn btn-success" id="payNowBtn" onclick="initiatePayment()">
+                            <i class="fas fa-lock"></i> PAY NOW • RM <span id="payNowAmount">70.00</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Payment Processing Status (simplified) -->
+                <div id="paymentProcessing" style="display: none;">
+                    <div class="payment-status active" id="processingStatus">
+                        <div class="spinner"></div>
+                        <h3>Processing Payment</h3>
+                        <p id="processingMessage">Connecting to UPM gateway...</p>
+                        <div style="margin-top: 20px; color: #666;">
+                            <i class="fas fa-clock"></i> Please do not close this window
+                        </div>
+                    </div>
+                    
+                    <div class="payment-status" id="successStatus">
+                        <i class="fas fa-check-circle" style="font-size: 5rem; color: #4CAF50; margin-bottom: 20px;"></i>
+                        <h3>Payment Successful!</h3>
+                        <p>Your transaction has been completed.</p>
+                        <button class="btn btn-primary" onclick="completePayment()" style="margin-top: 20px;">
+                            Continue to Confirmation
+                        </button>
+                    </div>
+                    
+                    <div class="payment-status" id="failedStatus">
+                        <i class="fas fa-times-circle" style="font-size: 5rem; color: #dc3545; margin-bottom: 20px;"></i>
+                        <h3>Payment Failed</h3>
+                        <p id="failedMessage">Transaction could not be processed. Please try again.</p>
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="retryPayment()">Try Again</button>
+                            <button class="btn btn-secondary" onclick="goToPage(3)">Back to Details</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note" style="margin-top: 30px;">
+                    <p><strong>Note:</strong> After successful payment, admission tickets will be sent to your email.</p>
+                </div>
+            </div>
+            
+            <!-- Page 5: Confirmation (unchanged except IC removed from display) -->
+            <div class="page" id="page5">
+                <div class="success-message">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Booking Successful!</h2>
+                    <p>Your admission tickets for YSD2026 UPM have been booked successfully.</p>
+                    <p>The admission tickets will be sent to your email shortly.</p>
+                    
+                    <div class="booking-id" id="confirmationRef">YSD-2026-001</div>
+                    
+                    <div class="ticket-preview" style="max-width: 500px; margin: 30px auto;">
+                        <h4>Admission Ticket YSD2026 UPM</h4>
+                        <div class="preview-item">
+                            <span class="preview-label">Contact Person:</span>
+                            <span class="preview-value" id="confirmationContact">-</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Date Purchased:</span>
+                            <span class="preview-value" id="confirmationDate">-</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Quantity of Tickets:</span>
+                            <span class="preview-value" id="confirmationQuantity">1</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Payment Method:</span>
+                            <span class="preview-value" id="confirmationPaymentMethod">UPM Gateway</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Booking Reference ID:</span>
+                            <span class="preview-value" id="confirmationBookingRef">-</span>
+                        </div>
+                        
+                        <div class="participants-summary" id="confirmationParticipants">
+                            <!-- Participants list for confirmation (IC removed) -->
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; background-color: #f0f9f0; padding: 15px; border-radius: 5px;">
+                        <i class="fas fa-envelope" style="color: #4CAF50;"></i>
+                        <strong>Check your email!</strong> We've sent the tickets to your inbox.
+                    </div>
+                    
+                    <p style="margin-top: 30px;">
+                        <button class="btn btn-primary" onclick="printTicket()"><i class="fas fa-print"></i> Print Ticket</button>
+                        <button class="btn btn-secondary" onclick="goToPage(1)"><i class="fas fa-home"></i> Back to Home</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>YSD2026 Universiti Putra Malaysia &copy; 2026. All rights reserved.</p>
+            <p>For inquiries, contact: ysd@upm.edu.my</p>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================
+        // FIREBASE CONFIGURATION
+        // ============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCzGLXIWHYX7LMGO821aJP50XkyZ4wqkfg",
+            authDomain: "ysd2026-upm.firebaseapp.com",
+            projectId: "ysd2026-upm",
+            storageBucket: "ysd2026-upm.firebasestorage.app",
+            messagingSenderId: "1027499510395",
+            appId: "1:1027499510395:web:37a83006a7e81d9bff70de"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        // ============================================
+        // GLOBAL VARIABLES
+        // ============================================
+        let currentPage = 1;
+        let ticketQuantity = 1;
+        // Prices: single RM70, bundle of 4 = RM260
+        const SINGLE_PRICE = 70.00;
+        const BUNDLE_PRICE = 260.00; // for 4 tickets
+        
+        let participants = [];
+        let currentBookingId = null;
+        let paymentInProgress = false;
+        
+        // DOM elements
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+        const quantityInput = document.getElementById('quantity');
+        const totalAmountElement = document.getElementById('totalAmount');
+        const totalSavingsElement = document.getElementById('totalSavings');
+        const priceBreakdownDiv = document.getElementById('priceBreakdown');
+        const previewQuantityElement = document.getElementById('previewQuantity');
+        const previewTotalElement = document.getElementById('previewTotal');
+        const bookingTicketPriceElement = document.getElementById('bookingTicketPrice');
+        const previewTicketTypeElement = document.getElementById('previewTicketType');
+        const paymentContactElement = document.getElementById('paymentContact');
+        const paymentAmountElement = document.getElementById('paymentAmount');
+        const paymentReferenceElement = document.getElementById('paymentReference');
+        const paymentParticipantsElement = document.getElementById('paymentParticipants');
+        const participantsSummaryElement = document.getElementById('participantsSummary');
+        const confirmationContactElement = document.getElementById('confirmationContact');
+        const confirmationDateElement = document.getElementById('confirmationDate');
+        const confirmationQuantityElement = document.getElementById('confirmationQuantity');
+        const confirmationBookingRefElement = document.getElementById('confirmationBookingRef');
+        const confirmationPaymentMethodElement = document.getElementById('confirmationPaymentMethod');
+        const confirmationRefElement = document.getElementById('confirmationRef');
+        const confirmationParticipantsElement = document.getElementById('confirmationParticipants');
+        const payNowAmount = document.getElementById('payNowAmount');
+        
+        // Payment elements
+        const paymentMainContent = document.getElementById('paymentMainContent');
+        const paymentProcessing = document.getElementById('paymentProcessing');
+        const processingStatus = document.getElementById('processingStatus');
+        const successStatus = document.getElementById('successStatus');
+        const failedStatus = document.getElementById('failedStatus');
+        
+        // ============================================
+        // HELPER FUNCTIONS
+        // ============================================
+        function showLoading(message = 'Processing...') {
+            loadingText.textContent = message;
+            loadingOverlay.style.display = 'flex';
+        }
+        
+        function hideLoading() {
+            loadingOverlay.style.display = 'none';
+        }
+        
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTotalAmount();
+            updateStepIndicators();
+            // no forms yet, will be added on bookNow
+        });
+        
+        // ============================================
+        // NAVIGATION
+        // ============================================
+        function goToPage(pageNumber) {
+            document.getElementById(`page${currentPage}`).classList.remove('active');
+            document.getElementById(`page${pageNumber}`).classList.add('active');
+            currentPage = pageNumber;
+            updateStepIndicators();
+            window.scrollTo(0, 0);
+            
+            // Reset payment UI if leaving payment page
+            if (pageNumber !== 4) {
+                resetPaymentUI();
+            }
+        }
+        
+        function updateStepIndicators() {
+            for (let i = 1; i <= 5; i++) {
+                const stepElement = document.getElementById(`step${i}`);
+                stepElement.classList.remove('active', 'completed');
+                
+                if (i < currentPage) {
+                    stepElement.classList.add('completed');
+                } else if (i === currentPage) {
+                    stepElement.classList.add('active');
+                }
+            }
+        }
+        
+        // ============================================
+        // TICKET SELECTION (simplified)
+        // ============================================
+        function selectTicket() {
+            // No package selection, just go to page2
+            ticketQuantity = 1;
+            quantityInput.value = 1;
+            quantityInput.min = 1;
+            quantityInput.max = 20;
+            quantityInput.readOnly = false;
+            
+            bookingTicketPriceElement.textContent = 'RM 70.00 each';
+            previewTicketTypeElement.textContent = 'Kids (5-12 years)';
+            
+            updateTotalAmount();
+            goToPage(2);
+        }
+        
+        // ============================================
+        // QUANTITY MANAGEMENT
+        // ============================================
+        function increaseQuantity() {
+            ticketQuantity = parseInt(quantityInput.value) + 1;
+            quantityInput.value = ticketQuantity;
+            updateTotalAmount();
+        }
+        
+        function decreaseQuantity() {
+            if (ticketQuantity > 1) {
+                ticketQuantity = parseInt(quantityInput.value) - 1;
+                quantityInput.value = ticketQuantity;
+                updateTotalAmount();
+            }
+        }
+        
+        function validateQuantity() {
+            let value = parseInt(quantityInput.value);
+            if (isNaN(value) || value < 1) value = 1;
+            if (value > 20) value = 20;
+            quantityInput.value = value;
+            ticketQuantity = value;
+            updateTotalAmount();
+        }
+        
+        function calculateTotal(qty) {
+            const bundles = Math.floor(qty / 4);
+            const singles = qty % 4;
+            const total = bundles * BUNDLE_PRICE + singles * SINGLE_PRICE;
+            const saving = bundles * (4 * SINGLE_PRICE - BUNDLE_PRICE); // saved RM20 per bundle
+            return { total, saving, bundles, singles };
+        }
+        
+        function updateTotalAmount() {
+            ticketQuantity = parseInt(quantityInput.value);
+            const { total, saving, bundles, singles } = calculateTotal(ticketQuantity);
+            
+            totalAmountElement.textContent = `RM ${total.toFixed(2)}`;
+            previewQuantityElement.textContent = ticketQuantity;
+            previewTotalElement.textContent = `RM ${total.toFixed(2)}`;
+            paymentAmountElement.textContent = `RM ${total.toFixed(2)}`;
+            payNowAmount.textContent = total.toFixed(2);
+            confirmationQuantityElement.textContent = ticketQuantity;
+            
+            // Price breakdown
+            let breakdownHtml = `<p><strong>Price breakdown:</strong></p>`;
+            if (bundles > 0) {
+                breakdownHtml += `<p>${bundles} × 4-ticket bundle @ RM260 = RM ${(bundles * BUNDLE_PRICE).toFixed(2)}</p>`;
+            }
+            if (singles > 0) {
+                breakdownHtml += `<p>${singles} × single ticket @ RM70 = RM ${(singles * SINGLE_PRICE).toFixed(2)}</p>`;
+            }
+            breakdownHtml += `<p><strong>Total: RM ${total.toFixed(2)}</strong>`;
+            if (saving > 0) {
+                breakdownHtml += ` <span style="color:#ff5722;">(You save RM ${saving.toFixed(2)})</span>`;
+                totalSavingsElement.textContent = `You save: RM ${saving.toFixed(2)}`;
+                totalSavingsElement.style.display = 'block';
+            } else {
+                totalSavingsElement.style.display = 'none';
+            }
+            breakdownHtml += `</p>`;
+            priceBreakdownDiv.innerHTML = breakdownHtml;
+            priceBreakdownDiv.style.display = 'block';
+        }
+        
+        function bookNow() {
+            updateParticipantForms();
+            goToPage(3);
+        }
+        
+        // ============================================
+        // PARTICIPANT MANAGEMENT (IC field removed)
+        // ============================================
+        function updateParticipantForms() {
+            const container = document.getElementById('participantsContainer');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= ticketQuantity; i++) {
+                addParticipantForm(i);
+            }
+        }
+        
+        function addParticipantForm(index) {
+            const container = document.getElementById('participantsContainer');
+            const participantNumber = index;
+            
+            const participantForm = document.createElement('div');
+            participantForm.className = 'participant-form';
+            participantForm.innerHTML = `
+                <h4>Participant ${participantNumber} Details</h4>
+                <div class="participant-row">
+                    <div class="participant-number">${participantNumber}.</div>
+                    <div class="participant-field">
+                        <label for="participantName${participantNumber}">Full Name *</label>
+                        <input type="text" id="participantName${participantNumber}" class="form-control" placeholder="Enter participant's full name">
+                    </div>
+                    <div class="participant-field">
+                        <label for="participantAge${participantNumber}">Age *</label>
+                        <input type="number" id="participantAge${participantNumber}" class="form-control" placeholder="Age" min="5" max="12">
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(participantForm);
+        }
+        
+        // ============================================
+        // VALIDATE AND SAVE BOOKING
+        // ============================================
+        async function validateParticipantDetails() {
+            const contactPerson = document.getElementById('contactPerson').value;
+            const contactEmail = document.getElementById('contactEmail').value;
+            const contactPhone = document.getElementById('contactPhone').value;
+            
+            if (!contactPerson || !contactEmail || !contactPhone) {
+                alert('Please fill in all contact person details.');
+                return;
+            }
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(contactEmail)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            const participantCount = document.getElementById('participantsContainer').children.length;
+            participants = [];
+            
+            for (let i = 1; i <= participantCount; i++) {
+                const name = document.getElementById(`participantName${i}`)?.value;
+                const age = document.getElementById(`participantAge${i}`)?.value;
+                
+                if (!name || !age) {
+                    alert(`Please fill in all details for Participant ${i}`);
+                    return;
+                }
+                
+                if (parseInt(age) < 5 || parseInt(age) > 12) {
+                    alert(`Participant ${i} age must be between 5 and 12 years old.`);
+                    return;
+                }
+                
+                participants.push({
+                    number: i,
+                    name: name,
+                    age: age
+                });
+            }
+            
+            const { total } = calculateTotal(ticketQuantity);
+            const bookingId = 'YSD-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+            
+            showLoading('Saving booking details...');
+            
+            try {
+                const bookingData = {
+                    bookingId: bookingId,
+                    contactPerson: contactPerson,
+                    email: contactEmail,
+                    phone: contactPhone,
+                    quantity: ticketQuantity,
+                    participants: participants,
+                    amount: total,
+                    status: 'pending',
+                    bookingDate: firebase.firestore.FieldValue.serverTimestamp(),
+                    eventDate: '2026-06-13'
+                };
+                
+                const docRef = await db.collection('bookings').add(bookingData);
+                currentBookingId = docRef.id;
+                
+                paymentContactElement.textContent = contactPerson;
+                paymentParticipantsElement.textContent = participantCount;
+                paymentReferenceElement.textContent = bookingId;
+                
+                updateParticipantsSummary();
+                
+                hideLoading();
+                goToPage(4);
+            } catch (error) {
+                hideLoading();
+                console.error('Error saving booking:', error);
+                alert('Error saving booking. Please try again. Error: ' + error.message);
+            }
+        }
+        
+        function updateParticipantsSummary() {
+            participantsSummaryElement.innerHTML = '';
+            
+            if (participants.length === 0) return;
+            
+            const summaryTitle = document.createElement('div');
+            summaryTitle.innerHTML = '<strong>Participants:</strong>';
+            summaryTitle.style.marginTop = '15px';
+            summaryTitle.style.marginBottom = '10px';
+            participantsSummaryElement.appendChild(summaryTitle);
+            
+            participants.forEach(participant => {
+                const participantDiv = document.createElement('div');
+                participantDiv.className = 'participant-item';
+                participantDiv.innerHTML = `
+                    <span>${participant.number}. ${participant.name}</span>
+                    <span>Age: ${participant.age}</span>
+                `;
+                participantsSummaryElement.appendChild(participantDiv);
+            });
+        }
+        
+        // ============================================
+        // PAYMENT PROCESSING (simplified - only UPM gateway)
+        // ============================================
+        function initiatePayment() {
+            if (paymentInProgress) return;
+            
+            paymentInProgress = true;
+            
+            // Hide main content, show processing
+            paymentMainContent.style.display = 'none';
+            paymentProcessing.style.display = 'block';
+            
+            processingStatus.style.display = 'block';
+            successStatus.style.display = 'none';
+            failedStatus.style.display = 'none';
+            
+            // Simulate payment processing
+            let progress = 0;
+            const processingMessages = [
+                'Connecting to UPM gateway...',
+                'Verifying payment details...',
+                'Processing transaction...',
+                'Almost there...'
+            ];
+            
+            const processingInterval = setInterval(() => {
+                if (progress < processingMessages.length) {
+                    document.getElementById('processingMessage').textContent = processingMessages[progress];
+                    progress++;
+                }
+            }, 1500);
+            
+            // Simulate success after 6 seconds (high success rate for demo)
+            setTimeout(() => {
+                clearInterval(processingInterval);
+                // 95% success simulation
+                if (Math.random() < 0.95) {
+                    processingStatus.style.display = 'none';
+                    successStatus.style.display = 'block';
+                } else {
+                    processingStatus.style.display = 'none';
+                    document.getElementById('failedMessage').textContent = 'UPM gateway temporarily unavailable. Please try again.';
+                    failedStatus.style.display = 'block';
+                    paymentInProgress = false;
+                }
+            }, 6000);
+        }
+        
+        function retryPayment() {
+            resetPaymentUI();
+        }
+        
+        function resetPaymentUI() {
+            paymentMainContent.style.display = 'block';
+            paymentProcessing.style.display = 'none';
+            paymentInProgress = false;
+        }
+        
+        // ============================================
+        // COMPLETE PAYMENT
+        // ============================================
+        async function completePayment() {
+            if (!currentBookingId) {
+                alert('Booking information not found. Please start over.');
+                goToPage(1);
+                return;
+            }
+            
+            showLoading('Finalizing your booking...');
+            
+            try {
+                // Update booking status to paid
+                await db.collection('bookings').doc(currentBookingId).update({
+                    status: 'paid',
+                    paymentMethod: 'UPM Gateway',
+                    paymentDetails: {
+                        method: 'UPM Gateway',
+                        transactionId: 'UPM' + Date.now(),
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    },
+                    paymentDate: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Get contact person details
+                const contactPerson = document.getElementById('contactPerson').value;
+                
+                // Update confirmation page
+                confirmationContactElement.textContent = contactPerson;
+                
+                const now = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                confirmationDateElement.textContent = now.toLocaleDateString('en-US', options);
+                
+                confirmationPaymentMethodElement.textContent = 'UPM Gateway';
+                
+                const bookingRef = paymentReferenceElement.textContent;
+                confirmationBookingRefElement.textContent = bookingRef;
+                confirmationRefElement.textContent = bookingRef;
+                
+                // Update confirmation participants list
+                updateConfirmationParticipants();
+                
+                hideLoading();
+                
+                resetPaymentUI();
+                goToPage(5);
+                
+                console.log('📧 Ticket email sent to:', document.getElementById('contactEmail').value);
+                
+            } catch (error) {
+                hideLoading();
+                console.error('Error completing payment:', error);
+                alert('Error processing payment. Please try again. Error: ' + error.message);
+                resetPaymentUI();
+            }
+        }
+        
+        function updateConfirmationParticipants() {
+            confirmationParticipantsElement.innerHTML = '';
+            
+            if (participants.length === 0) return;
+            
+            const summaryTitle = document.createElement('div');
+            summaryTitle.innerHTML = '<strong>Participants:</strong>';
+            summaryTitle.style.marginTop = '15px';
+            summaryTitle.style.marginBottom = '10px';
+            confirmationParticipantsElement.appendChild(summaryTitle);
+            
+            participants.forEach(participant => {
+                const participantDiv = document.createElement('div');
+                participantDiv.className = 'participant-item';
+                participantDiv.innerHTML = `
+                    <span>${participant.number}. ${participant.name}</span>
+                    <span>Age: ${participant.age}</span>
+                `;
+                confirmationParticipantsElement.appendChild(participantDiv);
+            });
+        }
+        
+        // ============================================
+        // PRINT TICKET (updated to remove IC)
+        // ============================================
+        function printTicket() {
+            let participantsHTML = '';
+            participants.forEach(p => {
+                participantsHTML += `
+                    <tr>
+                        <td>${p.number}</td>
+                        <td>${p.name}</td>
+                        <td>${p.age}</td>
+                    </tr>
+                `;
+            });
+            
+            const paymentMethod = confirmationPaymentMethodElement.textContent;
+            
+            const printContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>YSD2026 UPM Admission Ticket</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        .ticket { border: 2px solid #2c3e50; border-radius: 10px; padding: 20px; max-width: 800px; margin: 0 auto; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .header h1 { color: #2c3e50; margin-bottom: 5px; }
+                        .header h2 { color: #4CAF50; margin-top: 0; }
+                        .info { margin-bottom: 20px; }
+                        .info-row { display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+                        .label { font-weight: bold; color: #666; }
+                        .value { color: #333; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        th { background-color: #f5f5f5; padding: 10px; text-align: left; border-bottom: 2px solid #ddd; }
+                        td { padding: 10px; border-bottom: 1px solid #eee; }
+                        .footer { text-align: center; margin-top: 30px; font-size: 0.9rem; color: #666; }
+                        .badge { display: inline-block; background-color: #4CAF50; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; margin-bottom: 15px; }
+                        @media print {
+                            .no-print { display: none; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="ticket">
+                        <div class="header">
+                            <div class="badge">PAID</div>
+                            <h1>YOUTH SPORTS DAY 2026</h1>
+                            <h2>Universiti Putra Malaysia</h2>
+                            <p>13th June 2026 | Universiti Putra Malaysia, Serdang</p>
+                        </div>
+                        
+                        <div class="info">
+                            <div class="info-row">
+                                <span class="label">Contact Person:</span>
+                                <span class="value">${confirmationContactElement.textContent}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Booking Reference ID:</span>
+                                <span class="value">${confirmationBookingRefElement.textContent}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Date Purchased:</span>
+                                <span class="value">${confirmationDateElement.textContent}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Payment Method:</span>
+                                <span class="value">${paymentMethod}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Number of Tickets:</span>
+                                <span class="value">${confirmationQuantityElement.textContent}</span>
+                            </div>
+                        </div>
+                        
+                        <h3>Participant Details (for certificate preparation)</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${participantsHTML}
+                            </tbody>
+                        </table>
+                        
+                        <div class="footer">
+                            <p><i class="fas fa-qrcode"></i> Present this ticket (print or digital) at the event entrance</p>
+                            <p>For inquiries: ysd@upm.edu.my</p>
+                        </div>
+                    </div>
+                    
+                    <div class="no-print" style="text-align: center; margin-top: 20px;">
+                        <button onclick="window.print()">Print Ticket</button>
+                        <button onclick="window.close()">Close</button>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+        }
+        
+        quantityInput.addEventListener('change', validateQuantity);
+    </script>
+</body>
+</html>
